@@ -17,6 +17,26 @@ const gameState = {
     winCondition: 3,
 }
 
+// Super Game Variables
+const superGameState = {
+    boards: Array(9)
+        .fill()
+        .map(() => Array(9).fill("")),
+    mainBoard: Array(9).fill(""),
+    currentPlayer: "X",
+    nextBoardIndex: null,
+    opponent: "",
+    isGameActive: true,
+    playerScore: 0,
+    opponentScore: 0,
+    drawTimers: Array(9).fill(null),
+    drawCountdowns: Array(9).fill(null),
+    autoResetTimer: null,
+    autoResetCountdown: null,
+    gameTime: 0,
+    gameTimeInterval: null,
+}
+
 // Page Management
 function showPage(pageId) {
     loadPage(pageId)
@@ -55,6 +75,9 @@ function initializePage(pageId) {
             break
         case "game":
             initializeGamePage()
+            break
+        case "super-game":
+            initializeSuperGamePage()
             break
         default:
             break
@@ -413,6 +436,506 @@ function backToFriends() {
     showPage("friends")
 }
 
+// Super Game Functions
+function initializeSuperGamePage() {
+    console.log("👑 Super Game page initialized!")
+
+    // Update game info display
+    updateSuperGameInfo()
+
+    // Create super game board
+    createSuperGameBoard()
+
+    // Update game status
+    updateSuperGameStatus()
+
+    // Start game timer
+    startSuperGameTimer()
+}
+
+function startSuperGame(opponent, gameMode, boardSize) {
+    // Set game parameters
+    superGameState.opponent = opponent
+
+    // Reset game state
+    resetSuperGameState()
+
+    // Navigate to super game page
+    showPage("super-game")
+}
+
+function resetSuperGameState() {
+    superGameState.boards = Array(9)
+        .fill()
+        .map(() => Array(9).fill(""))
+    superGameState.mainBoard = Array(9).fill("")
+    superGameState.currentPlayer = "X"
+    superGameState.nextBoardIndex = null
+    superGameState.isGameActive = true
+    superGameState.gameTime = 0
+
+    // Clear all timers
+    clearSuperGameTimers()
+}
+
+function clearSuperGameTimers() {
+    // Clear draw timers
+    for (let i = 0; i < 9; i++) {
+        if (superGameState.drawTimers[i]) {
+            clearInterval(superGameState.drawTimers[i])
+            superGameState.drawTimers[i] = null
+        }
+    }
+
+    // Clear auto reset timer
+    if (superGameState.autoResetTimer) {
+        clearInterval(superGameState.autoResetTimer)
+        superGameState.autoResetTimer = null
+    }
+
+    // Clear game timer
+    if (superGameState.gameTimeInterval) {
+        clearInterval(superGameState.gameTimeInterval)
+        superGameState.gameTimeInterval = null
+    }
+}
+
+function createSuperGameBoard() {
+    const gameBoard = document.getElementById("superGameBoard")
+    if (!gameBoard) return
+
+    // Clear existing board
+    gameBoard.innerHTML = ""
+
+    // Create 9 big cells
+    for (let i = 0; i < 9; i++) {
+        const bigCell = document.createElement("div")
+        bigCell.className = "super-big-cell"
+        bigCell.dataset.index = i
+
+        // Check if this board is active
+        if (
+            (superGameState.nextBoardIndex === null || superGameState.nextBoardIndex === i) &&
+            (superGameState.mainBoard[i] === "" || superGameState.mainBoard[i] === "draw-active")
+        ) {
+            bigCell.classList.add("active-board")
+        }
+
+        // Create content based on board state
+        if (superGameState.mainBoard[i] === "X") {
+            bigCell.classList.add("x-won")
+            bigCell.innerHTML = '<div class="super-big-cell-content"><i class="fas fa-times super-big-x-mark"></i></div>'
+        } else if (superGameState.mainBoard[i] === "O") {
+            bigCell.classList.add("o-won")
+            bigCell.innerHTML = '<div class="super-big-cell-content"><i class="fas fa-circle super-big-o-mark"></i></div>'
+        } else if (superGameState.mainBoard[i] === "draw-active") {
+            bigCell.classList.add("draw-active")
+            bigCell.innerHTML = `
+        <div class="super-big-cell-content">
+          <div>DRAW</div>
+          <div class="super-countdown" id="super-countdown-${i}">${superGameState.drawCountdowns[i]}</div>
+        </div>
+      `
+        } else if (superGameState.mainBoard[i] === "draw") {
+            bigCell.classList.add("draw")
+            bigCell.innerHTML = '<div class="super-big-cell-content">DRAW</div>'
+        } else {
+            // Create small board
+            const smallBoard = document.createElement("div")
+            smallBoard.className = "super-small-board"
+
+            for (let j = 0; j < 9; j++) {
+                const smallCell = document.createElement("div")
+                smallCell.className = "super-small-cell"
+                smallCell.dataset.boardIndex = i
+                smallCell.dataset.cellIndex = j
+
+                // Set cell content
+                if (superGameState.boards[i][j] === "X") {
+                    smallCell.textContent = "×"
+                    smallCell.classList.add("filled", "player-x")
+                } else if (superGameState.boards[i][j] === "O") {
+                    smallCell.textContent = "○"
+                    smallCell.classList.add("filled", "player-o")
+                }
+
+                // Check if cell is clickable
+                const isBoardActive =
+                    (superGameState.nextBoardIndex === null || superGameState.nextBoardIndex === i) &&
+                    (superGameState.mainBoard[i] === "" || superGameState.mainBoard[i] === "draw-active")
+                const isCellEmpty = superGameState.boards[i][j] === ""
+
+                if (isBoardActive && isCellEmpty && superGameState.isGameActive) {
+                    smallCell.addEventListener("click", () => handleSuperCellClick(i, j))
+                } else {
+                    smallCell.classList.add("disabled")
+                }
+
+                smallBoard.appendChild(smallCell)
+            }
+
+            bigCell.appendChild(smallBoard)
+        }
+
+        gameBoard.appendChild(bigCell)
+    }
+
+    updateSuperNextBoardInfo()
+}
+
+function handleSuperCellClick(boardIndex, cellIndex) {
+    // Check if move is valid
+    if (
+        !superGameState.isGameActive ||
+        superGameState.boards[boardIndex][cellIndex] !== "" ||
+        (superGameState.nextBoardIndex !== null && superGameState.nextBoardIndex !== boardIndex) ||
+        (superGameState.mainBoard[boardIndex] !== "" && superGameState.mainBoard[boardIndex] !== "draw-active")
+    ) {
+        return
+    }
+
+    // Make move
+    superGameState.boards[boardIndex][cellIndex] = superGameState.currentPlayer
+
+    // Check if this move won the small board
+    const boardWinner = checkSuperBoardWinner(superGameState.boards[boardIndex])
+
+    if (boardWinner === "X" || boardWinner === "O") {
+        superGameState.mainBoard[boardIndex] = boardWinner
+
+        // Clear any draw timer
+        if (superGameState.drawTimers[boardIndex]) {
+            clearInterval(superGameState.drawTimers[boardIndex])
+            superGameState.drawTimers[boardIndex] = null
+        }
+    } else if (boardWinner === "draw") {
+        // Start draw countdown
+        superGameState.mainBoard[boardIndex] = "draw-active"
+        superGameState.drawCountdowns[boardIndex] = 15
+
+        // Clear existing timer
+        if (superGameState.drawTimers[boardIndex]) {
+            clearInterval(superGameState.drawTimers[boardIndex])
+        }
+
+        // Start countdown
+        superGameState.drawTimers[boardIndex] = setInterval(() => {
+            superGameState.drawCountdowns[boardIndex]--
+
+            const countdownElement = document.getElementById(`super-countdown-${boardIndex}`)
+            if (countdownElement) {
+                countdownElement.textContent = superGameState.drawCountdowns[boardIndex]
+            }
+
+            if (superGameState.drawCountdowns[boardIndex] <= 0) {
+                clearInterval(superGameState.drawTimers[boardIndex])
+                superGameState.mainBoard[boardIndex] = "draw"
+                createSuperGameBoard()
+                checkSuperGameWinner()
+            }
+        }, 1000)
+    }
+
+    // Check if game is won
+    checkSuperGameWinner()
+
+    // Set next board
+    if (superGameState.mainBoard[cellIndex] === "" || superGameState.mainBoard[cellIndex] === "draw-active") {
+        superGameState.nextBoardIndex = cellIndex
+    } else {
+        superGameState.nextBoardIndex = null
+    }
+
+    // Switch players
+    superGameState.currentPlayer = superGameState.currentPlayer === "X" ? "O" : "X"
+    updateSuperGameStatus()
+
+    // Recreate board
+    createSuperGameBoard()
+
+    // AI move for opponent
+    if (superGameState.currentPlayer === "O") {
+        setTimeout(() => {
+            makeSuperAIMove()
+        }, 1000)
+    }
+}
+
+function makeSuperAIMove() {
+    if (!superGameState.isGameActive) return
+
+    // Find valid moves
+    const validMoves = []
+
+    for (let i = 0; i < 9; i++) {
+        // Check if this board is playable
+        const isBoardActive =
+            (superGameState.nextBoardIndex === null || superGameState.nextBoardIndex === i) &&
+            (superGameState.mainBoard[i] === "" || superGameState.mainBoard[i] === "draw-active")
+
+        if (isBoardActive) {
+            for (let j = 0; j < 9; j++) {
+                if (superGameState.boards[i][j] === "") {
+                    validMoves.push({ boardIndex: i, cellIndex: j })
+                }
+            }
+        }
+    }
+
+    if (validMoves.length === 0) return
+
+    // Make random move
+    const randomMove = validMoves[Math.floor(Math.random() * validMoves.length)]
+    const { boardIndex, cellIndex } = randomMove
+
+    // Make move
+    superGameState.boards[boardIndex][cellIndex] = "O"
+
+    // Check if this move won the small board
+    const boardWinner = checkSuperBoardWinner(superGameState.boards[boardIndex])
+
+    if (boardWinner === "X" || boardWinner === "O") {
+        superGameState.mainBoard[boardIndex] = boardWinner
+
+        if (superGameState.drawTimers[boardIndex]) {
+            clearInterval(superGameState.drawTimers[boardIndex])
+            superGameState.drawTimers[boardIndex] = null
+        }
+    } else if (boardWinner === "draw") {
+        superGameState.mainBoard[boardIndex] = "draw-active"
+        superGameState.drawCountdowns[boardIndex] = 15
+
+        if (superGameState.drawTimers[boardIndex]) {
+            clearInterval(superGameState.drawTimers[boardIndex])
+        }
+
+        superGameState.drawTimers[boardIndex] = setInterval(() => {
+            superGameState.drawCountdowns[boardIndex]--
+
+            const countdownElement = document.getElementById(`super-countdown-${boardIndex}`)
+            if (countdownElement) {
+                countdownElement.textContent = superGameState.drawCountdowns[boardIndex]
+            }
+
+            if (superGameState.drawCountdowns[boardIndex] <= 0) {
+                clearInterval(superGameState.drawTimers[boardIndex])
+                superGameState.mainBoard[boardIndex] = "draw"
+                createSuperGameBoard()
+                checkSuperGameWinner()
+            }
+        }, 1000)
+    }
+
+    // Check if game is won
+    checkSuperGameWinner()
+
+    // Set next board
+    if (superGameState.mainBoard[cellIndex] === "" || superGameState.mainBoard[cellIndex] === "draw-active") {
+        superGameState.nextBoardIndex = cellIndex
+    } else {
+        superGameState.nextBoardIndex = null
+    }
+
+    // Switch back to player
+    superGameState.currentPlayer = "X"
+    updateSuperGameStatus()
+
+    // Recreate board
+    createSuperGameBoard()
+}
+
+function checkSuperBoardWinner(board) {
+    const lines = [
+        [0, 1, 2],
+        [3, 4, 5],
+        [6, 7, 8], // rows
+        [0, 3, 6],
+        [1, 4, 7],
+        [2, 5, 8], // columns
+        [0, 4, 8],
+        [2, 4, 6], // diagonals
+    ]
+
+    for (const [a, b, c] of lines) {
+        if (board[a] && board[a] === board[b] && board[a] === board[c]) {
+            return board[a]
+        }
+    }
+
+    // Check for draw
+    if (board.every((cell) => cell !== "")) {
+        return "draw"
+    }
+
+    return null
+}
+
+function checkSuperGameWinner() {
+    // Create board for winner checking
+    const boardForWinnerCheck = superGameState.mainBoard.map((cell) => {
+        if (cell === "draw-active" || cell === "draw") {
+            return null
+        }
+        return cell
+    })
+
+    const gameWinner = checkSuperBoardWinner(boardForWinnerCheck)
+
+    if (gameWinner) {
+        superGameState.isGameActive = false
+
+        // Update scores
+        if (gameWinner === "X") {
+            superGameState.playerScore++
+        } else if (gameWinner === "O") {
+            superGameState.opponentScore++
+        }
+
+        updateSuperScoreDisplay()
+        showSuperGameResult(gameWinner)
+    } else {
+        // Check if game is draw
+        const isGameDraw = superGameState.mainBoard.every((cell) => cell !== "")
+        if (isGameDraw) {
+            superGameState.isGameActive = false
+            showSuperGameResult("draw")
+        }
+    }
+}
+
+function showSuperGameResult(winner) {
+    const modal = document.getElementById("superGameResultModal")
+    const resultIcon = document.getElementById("superResultIcon")
+    const resultText = document.getElementById("superResultText")
+
+    if (!modal || !resultIcon || !resultText) return
+
+    // Clear previous classes
+    resultIcon.className = "result-icon"
+
+    if (winner === "X") {
+        resultIcon.classList.add("win")
+        resultIcon.innerHTML = '<i class="fas fa-crown"></i>'
+        resultText.textContent = "Siz Super Champion bo'ldingiz! 👑"
+    } else if (winner === "O") {
+        resultIcon.classList.add("lose")
+        resultIcon.innerHTML = '<i class="fas fa-times-circle"></i>'
+        resultText.textContent = "Raqib yutdi! Keyingi safar omad! 😔"
+    } else {
+        resultIcon.classList.add("draw")
+        resultIcon.innerHTML = '<i class="fas fa-handshake"></i>'
+        resultText.textContent = "Super Durrang! Ikkalangiz ham zo'r! 🤝"
+    }
+
+    modal.classList.remove("d-none")
+}
+
+function updateSuperGameInfo() {
+    const opponentElement = document.getElementById("superCurrentOpponent")
+    if (opponentElement) opponentElement.textContent = superGameState.opponent
+}
+
+function updateSuperGameStatus() {
+    const playerIndicator = document.getElementById("superCurrentPlayerIndicator")
+    const playerIcon = document.getElementById("superPlayerIcon")
+    const playerName = document.getElementById("superPlayerName")
+
+    if (!playerIndicator || !playerIcon || !playerName) return
+
+    if (superGameState.currentPlayer === "X") {
+        playerIndicator.className = "player-indicator"
+        playerIcon.className = "fas fa-times"
+        playerName.textContent = "Siz"
+    } else {
+        playerIndicator.className = "player-indicator player-o"
+        playerIcon.className = "fas fa-circle"
+        playerName.textContent = superGameState.opponent
+    }
+}
+
+function updateSuperScoreDisplay() {
+    const playerScore = document.getElementById("superPlayerScore")
+    const opponentScore = document.getElementById("superOpponentScore")
+
+    if (playerScore) playerScore.textContent = superGameState.playerScore
+    if (opponentScore) opponentScore.textContent = superGameState.opponentScore
+}
+
+function updateSuperNextBoardInfo() {
+    const infoElement = document.getElementById("superNextBoardInfo")
+    if (!infoElement) return
+
+    if (superGameState.nextBoardIndex === null) {
+        infoElement.textContent = "Istalgan boardda o'ynashingiz mumkin"
+    } else {
+        const boardNames = [
+            "Yuqori chap",
+            "Yuqori o'rta",
+            "Yuqori o'ng",
+            "O'rta chap",
+            "Markaziy",
+            "O'rta o'ng",
+            "Pastki chap",
+            "Pastki o'rta",
+            "Pastki o'ng",
+        ]
+        infoElement.textContent = `${boardNames[superGameState.nextBoardIndex]} boardda o'ynang`
+    }
+}
+
+function startSuperGameTimer() {
+    if (superGameState.gameTimeInterval) {
+        clearInterval(superGameState.gameTimeInterval)
+    }
+
+    superGameState.gameTimeInterval = setInterval(() => {
+        superGameState.gameTime++
+        const minutes = Math.floor(superGameState.gameTime / 60)
+        const seconds = superGameState.gameTime % 60
+        const timeString = `${minutes}:${seconds < 10 ? "0" : ""}${seconds}`
+
+        const timeElement = document.getElementById("superGameTime")
+        if (timeElement) {
+            timeElement.textContent = timeString
+        }
+    }, 1000)
+}
+
+function restartSuperGame() {
+    resetSuperGameState()
+    createSuperGameBoard()
+    updateSuperGameStatus()
+    startSuperGameTimer()
+
+    // Hide result modal if visible
+    const modal = document.getElementById("superGameResultModal")
+    if (modal) {
+        modal.classList.add("d-none")
+    }
+
+    showNotification("🔄 Super o'yin qayta boshlandi!", "info")
+}
+
+function newSuperGame() {
+    superGameState.playerScore = 0
+    superGameState.opponentScore = 0
+    updateSuperScoreDisplay()
+    restartSuperGame()
+    showNotification("🆕 Yangi Super o'yin boshlandi!", "success")
+}
+
+function quitSuperGame() {
+    if (confirm("Rostdan ham Super o'yindan chiqishni xohlaysizmi?")) {
+        clearSuperGameTimers()
+        showPage("friends")
+        showNotification("👋 Super o'yindan chiqildi", "info")
+    }
+}
+
+function playSuperAgain() {
+    restartSuperGame()
+}
+
 // Sidebar Management
 function toggleSidebar() {
     const sidebar = document.getElementById("mainSidebar")
@@ -626,11 +1149,14 @@ function acceptDuel(username, gameMode, boardSize) {
     // Update count
     updateReceivedCount()
 
-    // Start game
-    startGame(username, gameMode, boardSize)
-
-    // Success notification
-    showNotification(`✅ ${username} bilan o'yin boshlandi!`, "success")
+    // Start appropriate game based on mode
+    if (gameMode === "super") {
+        startSuperGame(username, gameMode, boardSize)
+        showNotification(`👑 ${username} bilan Super o'yin boshlandi!`, "success")
+    } else {
+        startGame(username, gameMode, boardSize)
+        showNotification(`✅ ${username} bilan o'yin boshlandi!`, "success")
+    }
 }
 
 function rejectDuel(username) {

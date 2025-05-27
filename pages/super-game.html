@@ -1,0 +1,396 @@
+<div class="page-card">
+    <div class="game-header">
+        <div class="game-info">
+            <h1 class="page-title">
+                <i class="fas fa-crown me-3" style="color: #8b5cf6;"></i>
+                Super XO - Ultimate
+            </h1>
+            <div class="game-details">
+                <span class="game-mode-badge super-mode">Super</span>
+                <span class="game-board-badge ultimate-badge">Ultimate 9x9</span>
+                <span class="game-opponent-badge" id="superCurrentOpponent">@nodir_game</span>
+            </div>
+        </div>
+        <button class="btn-back" onclick="showPage('friends')">
+            <i class="fas fa-arrow-left me-2"></i>
+            Orqaga
+        </button>
+    </div>
+
+    <div class="super-game-container">
+        <!-- Game Status -->
+        <div class="super-game-status">
+            <div class="current-player">
+                <span class="player-label">Navbat:</span>
+                <span class="player-indicator" id="superCurrentPlayerIndicator">
+                    <i class="fas fa-times" id="superPlayerIcon"></i>
+                    <span id="superPlayerName">Siz</span>
+                </span>
+            </div>
+            <div class="game-score">
+                <div class="score-item">
+                    <span class="score-label">Siz (X):</span>
+                    <span class="score-value" id="superPlayerScore">0</span>
+                </div>
+                <div class="score-item">
+                    <span class="score-label" id="superOpponentLabel">Raqib (O):</span>
+                    <span class="score-value" id="superOpponentScore">0</span>
+                </div>
+            </div>
+            <div class="game-timer">
+                <i class="fas fa-clock me-1"></i>
+                <span id="superGameTime">0:00</span>
+            </div>
+        </div>
+
+        <!-- Winner Banner -->
+        <div id="superWinnerBanner" class="winner-banner d-none">
+            <div id="superWinnerText"></div>
+            <div class="auto-reset-info">O'yin <span id="superAutoResetCountdown">8</span> soniyada qayta boshlanadi</div>
+        </div>
+
+        <!-- Super Game Board -->
+        <div class="super-game-board-container">
+            <div class="super-game-board" id="superGameBoard">
+                <!-- 9 big cells will be generated dynamically -->
+            </div>
+        </div>
+
+        <!-- Game Info -->
+        <div class="super-game-info">
+            <div class="info-item">
+                <i class="fas fa-info-circle me-2"></i>
+                <span>Kichik board yutib, katta boardda o'sha joyni egallang!</span>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-target me-2"></i>
+                <span id="superNextBoardInfo">Istalgan boardda o'ynashingiz mumkin</span>
+            </div>
+        </div>
+
+        <!-- Game Controls -->
+        <div class="game-controls">
+            <button class="control-btn restart" onclick="restartSuperGame()">
+                <i class="fas fa-redo me-2"></i>
+                Qayta boshlash
+            </button>
+            <button class="control-btn new-game" onclick="newSuperGame()">
+                <i class="fas fa-plus me-2"></i>
+                Yangi o'yin
+            </button>
+            <button class="control-btn quit" onclick="quitSuperGame()">
+                <i class="fas fa-sign-out-alt me-2"></i>
+                Chiqish
+            </button>
+        </div>
+
+        <!-- Game Result Modal -->
+        <div class="game-result-modal d-none" id="superGameResultModal">
+            <div class="result-content">
+                <div class="result-icon" id="superResultIcon">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <div class="result-text" id="superResultText">
+                    Siz Super Champion bo'ldingiz!
+                </div>
+                <div class="result-actions">
+                    <button class="result-btn primary" onclick="playSuperAgain()">
+                        <i class="fas fa-play me-2"></i>
+                        Yana o'ynash
+                    </button>
+                    <button class="result-btn secondary" onclick="backToFriends()">
+                        <i class="fas fa-arrow-left me-2"></i>
+                        Orqaga
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    /* Super Game Specific Styles */
+    .super-mode {
+        background: linear-gradient(45deg, #8b5cf6, #ec4899);
+        color: white;
+        border: none;
+    }
+
+    .ultimate-badge {
+        background: linear-gradient(45deg, #f59e0b, #ef4444);
+        color: white;
+        border: none;
+    }
+
+    .super-game-container {
+        max-width: 800px;
+        margin: 0 auto;
+    }
+
+    .super-game-status {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: rgba(139, 92, 246, 0.1);
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 2rem;
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        flex-wrap: wrap;
+        gap: 1rem;
+    }
+
+    .game-timer {
+        display: flex;
+        align-items: center;
+        color: rgba(255, 255, 255, 0.8);
+        font-weight: 600;
+        background: rgba(139, 92, 246, 0.2);
+        padding: 0.5rem 1rem;
+        border-radius: 20px;
+        border: 1px solid rgba(139, 92, 246, 0.3);
+    }
+
+    .super-game-board-container {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 2rem;
+    }
+
+    .super-game-board {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 6px;
+        background: linear-gradient(45deg, #8b5cf6, #ec4899);
+        padding: 8px;
+        border-radius: 15px;
+        width: 600px;
+        height: 600px;
+    }
+
+    .super-big-cell {
+        position: relative;
+        background-color: rgba(255, 255, 255, 0.95);
+        border-radius: 8px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.3s ease;
+    }
+
+    .super-big-cell.active-board {
+        border: 3px solid #facc15;
+        box-shadow: 0 0 20px rgba(250, 204, 21, 0.5);
+        transform: scale(1.02);
+    }
+
+    .super-big-cell.x-won {
+        background: linear-gradient(45deg, #3b82f6, #60a5fa);
+        color: white;
+    }
+
+    .super-big-cell.o-won {
+        background: linear-gradient(45deg, #ec4899, #f472b6);
+        color: white;
+    }
+
+    .super-big-cell.draw {
+        background: linear-gradient(45deg, #6b7280, #9ca3af);
+        color: white;
+    }
+
+    .super-big-cell.draw-active {
+        background: linear-gradient(45deg, #10b981, #34d399);
+        color: white;
+        animation: pulse 1.5s infinite;
+    }
+
+    .super-big-cell-content {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100%;
+        width: 100%;
+        flex-direction: column;
+    }
+
+    .super-small-board {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 2px;
+        background-color: rgba(139, 92, 246, 0.1);
+        height: 100%;
+        width: 100%;
+        padding: 4px;
+        border-radius: 4px;
+    }
+
+    .super-small-cell {
+        background-color: white;
+        aspect-ratio: 1/1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        border-radius: 3px;
+        font-size: 1.2rem;
+        font-weight: 700;
+    }
+
+    .super-small-cell:hover {
+        background-color: rgba(139, 92, 246, 0.1);
+        transform: scale(1.1);
+    }
+
+    .super-small-cell.disabled {
+        cursor: not-allowed;
+        opacity: 0.5;
+    }
+
+    .super-small-cell.disabled:hover {
+        transform: none;
+        background-color: white;
+    }
+
+    .super-small-cell.filled {
+        cursor: not-allowed;
+    }
+
+    .super-small-cell.filled:hover {
+        transform: none;
+    }
+
+    .super-small-cell.player-x {
+        color: #3b82f6;
+        background: rgba(59, 130, 246, 0.1);
+    }
+
+    .super-small-cell.player-o {
+        color: #ec4899;
+        background: rgba(236, 72, 153, 0.1);
+    }
+
+    .super-small-cell.winning-cell {
+        background: rgba(34, 197, 94, 0.3) !important;
+        animation: pulse 1s infinite;
+    }
+
+    .super-big-x-mark {
+        color: white;
+        font-size: 4rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .super-big-o-mark {
+        color: white;
+        font-size: 4rem;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .super-countdown {
+        font-size: 1.5rem;
+        font-weight: bold;
+        margin-top: 10px;
+        text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .super-game-info {
+        background: rgba(139, 92, 246, 0.05);
+        border: 1px solid rgba(139, 92, 246, 0.2);
+        border-radius: 12px;
+        padding: 1rem;
+        margin-bottom: 2rem;
+    }
+
+    .info-item {
+        display: flex;
+        align-items: center;
+        color: rgba(255, 255, 255, 0.9);
+        margin-bottom: 0.5rem;
+        font-size: 0.9rem;
+    }
+
+    .info-item:last-child {
+        margin-bottom: 0;
+    }
+
+    .info-item i {
+        color: #8b5cf6;
+    }
+
+    /* Responsive Design for Super Game */
+    @media (max-width: 768px) {
+        .super-game-status {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .super-game-board {
+            width: 350px;
+            height: 350px;
+            gap: 3px;
+            padding: 4px;
+        }
+
+        .super-small-cell {
+            font-size: 0.9rem;
+        }
+
+        .super-big-x-mark,
+        .super-big-o-mark {
+            font-size: 2.5rem;
+        }
+
+        .super-countdown {
+            font-size: 1rem;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .super-game-board {
+            width: 280px;
+            height: 280px;
+            gap: 2px;
+            padding: 3px;
+        }
+
+        .super-small-cell {
+            font-size: 0.8rem;
+        }
+
+        .super-big-x-mark,
+        .super-big-o-mark {
+            font-size: 2rem;
+        }
+
+        .super-countdown {
+            font-size: 0.9rem;
+        }
+    }
+
+    /* Special animations for Super mode */
+    @keyframes superPulse {
+        0% {
+            transform: scale(1);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+        50% {
+            transform: scale(1.05);
+            box-shadow: 0 0 30px rgba(139, 92, 246, 0.6);
+        }
+        100% {
+            transform: scale(1);
+            box-shadow: 0 0 20px rgba(139, 92, 246, 0.3);
+        }
+    }
+
+    .super-big-cell.draw-active {
+        animation: superPulse 1.5s infinite;
+    }
+
+    .super-winner-glow {
+        animation: superPulse 2s infinite;
+    }
+</style>
