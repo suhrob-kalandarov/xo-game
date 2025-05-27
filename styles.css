@@ -1,0 +1,899 @@
+:root {
+    --primary-color: #1e3c72;
+    --secondary-color: #2a5298;
+    --accent-color: #00d2ff;
+    --success-color: #56ab2f;
+    --warning-color: #ff6b6b;
+    --sidebar-width: 260px;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+/* Navbar */
+.navbar {
+    background: rgba(30, 60, 114, 0.95);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 0.6rem 1rem;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 1050;
+    height: 60px;
+}
+
+.navbar-brand {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #fff !important;
+    letter-spacing: 1px;
+}
+
+.hamburger-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    font-size: 1.1rem;
+    color: #fff;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 8px;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s ease;
+}
+
+.hamburger-btn:hover {
+    background: rgba(0, 210, 255, 0.2);
+}
+
+/* Sidebar */
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: calc(-1 * var(--sidebar-width));
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: rgba(30, 60, 114, 0.95);
+    transition: left 0.25s ease;
+    z-index: 1040;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.sidebar.active {
+    left: 0;
+}
+
+.sidebar-header {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 210, 255, 0.1);
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.sidebar-header h5 {
+    color: #fff;
+    font-weight: 600;
+    font-size: 1.1rem;
+    margin: 0;
+}
+
+.sidebar-menu {
+    padding: 0.8rem 0;
+    flex: 1;
+    overflow-y: auto;
+}
+
+.sidebar-footer {
+    padding: 0.8rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(0, 0, 0, 0.1);
+}
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    color: rgba(255, 255, 255, 0.9);
+    text-decoration: none;
+    transition: background 0.2s ease;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    position: relative;
+    margin: 0.2rem 0;
+}
+
+.menu-item::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--accent-color);
+    transform: scaleY(0);
+    transition: transform 0.2s ease;
+}
+
+.menu-item.active::before,
+.menu-item:hover::before {
+    transform: scaleY(1);
+}
+
+.menu-item.active,
+.menu-item:hover {
+    background: rgba(0, 210, 255, 0.15);
+    color: #fff;
+}
+
+.menu-item i {
+    margin-right: 0.8rem;
+    width: 20px;
+    font-size: 1.1rem;
+}
+
+/* Nested Sidebar */
+.nested-sidebar {
+    position: fixed;
+    top: 0;
+    left: calc(-1 * var(--sidebar-width));
+    width: var(--sidebar-width);
+    height: 100vh;
+    background: rgba(42, 82, 152, 0.95);
+    transition: left 0.25s ease;
+    z-index: 1045;
+    border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.nested-sidebar.active {
+    left: var(--sidebar-width);
+}
+
+.back-btn {
+    background: rgba(255, 107, 107, 0.2);
+    border: none;
+    padding: 1rem;
+    width: 100%;
+    text-align: left;
+    color: #fff;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    height: 60px;
+    display: flex;
+    align-items: center;
+}
+
+.back-btn:hover {
+    background: rgba(255, 107, 107, 0.3);
+}
+
+/* Overlay */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    z-index: 1030;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.25s ease;
+}
+
+.overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+/* Main Content */
+.main-content {
+    margin-top: 70px;
+    padding: 1rem;
+    min-height: calc(100vh - 70px);
+}
+
+/* Page Cards */
+.page-card {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px;
+    padding: 2rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    margin-bottom: 1.5rem;
+}
+
+.page-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 1rem;
+}
+
+.page-subtitle {
+    font-size: 1rem;
+    color: rgba(255, 255, 255, 0.8);
+    margin-bottom: 1.5rem;
+}
+
+/* Stats Grid */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.stat-card {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1.5rem 1rem;
+    border-radius: 12px;
+    text-align: center;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    transition: transform 0.2s ease;
+}
+
+.stat-card:hover {
+    transform: translateY(-2px);
+}
+
+.stat-number {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #fff;
+    margin-bottom: 0.3rem;
+}
+
+.stat-label {
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+    font-size: 0.85rem;
+}
+
+/* Action Buttons */
+.action-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.action-btn {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    padding: 1.5rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    text-align: center;
+}
+
+.action-btn.primary {
+    background: rgba(0, 210, 255, 0.2);
+    border-color: rgba(0, 210, 255, 0.3);
+}
+
+.action-btn.success {
+    background: rgba(86, 171, 47, 0.2);
+    border-color: rgba(86, 171, 47, 0.3);
+}
+
+.action-btn.warning {
+    background: rgba(255, 107, 107, 0.2);
+    border-color: rgba(255, 107, 107, 0.3);
+}
+
+.action-btn.danger {
+    background: rgba(238, 90, 36, 0.2);
+    border-color: rgba(238, 90, 36, 0.3);
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    opacity: 0.9;
+}
+
+/* Feature Lists */
+.feature-list {
+    display: grid;
+    gap: 1rem;
+    margin: 1.5rem 0;
+}
+
+.feature-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 1rem 1.5rem;
+    border-radius: 10px;
+    border-left: 4px solid var(--accent-color);
+    transition: background 0.2s ease;
+    display: flex;
+    align-items: center;
+}
+
+.feature-item.friends {
+    border-left-color: var(--success-color);
+}
+
+.feature-item.bots {
+    border-left-color: var(--warning-color);
+}
+
+.feature-item.social {
+    border-left-color: #667eea;
+}
+
+.feature-item:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.feature-icon {
+    font-size: 1.5rem;
+    margin-right: 1rem;
+    width: 40px;
+    text-align: center;
+}
+
+.feature-content h4 {
+    color: #fff;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 0.2rem;
+}
+
+.feature-content p {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.9rem;
+    margin: 0;
+}
+
+/* Profile Styles */
+.profile-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 2rem;
+    padding: 1.5rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.profile-avatar {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    margin-right: 1.5rem;
+    border: 3px solid var(--accent-color);
+    object-fit: cover;
+}
+
+.profile-info h3 {
+    color: #fff;
+    margin: 0 0 0.5rem 0;
+    font-size: 1.5rem;
+}
+
+.profile-info p {
+    color: rgba(255, 255, 255, 0.8);
+    margin: 0.2rem 0;
+    font-size: 0.9rem;
+}
+
+.telegram-badge {
+    display: inline-flex;
+    align-items: center;
+    background: rgba(0, 136, 204, 0.2);
+    border: 1px solid rgba(0, 136, 204, 0.3);
+    color: #fff;
+    padding: 0.3rem 0.6rem;
+    border-radius: 15px;
+    font-size: 0.8rem;
+    margin-top: 0.5rem;
+}
+
+.telegram-badge i {
+    margin-right: 0.3rem;
+}
+
+/* Tab Navigation Styles */
+.duel-tabs {
+    display: flex;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 0.3rem;
+    margin-bottom: 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.tab-btn {
+    flex: 1;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.7);
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-weight: 500;
+    font-size: 0.9rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tab-btn.active {
+    background: var(--accent-color);
+    color: #fff;
+    transform: translateY(-1px);
+}
+
+.tab-btn:hover:not(.active) {
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+}
+
+/* Tab Content */
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Compact Friends Select */
+.friends-compact {
+    margin-bottom: 1rem;
+}
+
+.friends-scroll {
+    display: flex;
+    gap: 0.5rem;
+    overflow-x: auto;
+    padding: 0.5rem 0;
+    scrollbar-width: thin;
+}
+
+.friends-scroll::-webkit-scrollbar {
+    height: 4px;
+}
+
+.friends-scroll::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 2px;
+}
+
+.friends-scroll::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 2px;
+}
+
+.friend-chip-compact {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: rgba(86, 171, 47, 0.2);
+    border: 1px solid rgba(86, 171, 47, 0.3);
+    color: #fff;
+    padding: 0.6rem 0.8rem;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    font-size: 0.8rem;
+    min-width: 60px;
+    white-space: nowrap;
+}
+
+.friend-chip-compact:hover {
+    background: rgba(86, 171, 47, 0.3);
+    transform: translateY(-2px);
+}
+
+.friend-chip-compact.selected {
+    background: var(--success-color);
+    border-color: var(--success-color);
+    transform: scale(1.05);
+}
+
+.friend-chip-compact i {
+    font-size: 1.2rem;
+    margin-bottom: 0.3rem;
+}
+
+/* Compact Form */
+.compact-form {
+    background: rgba(255, 255, 255, 0.05);
+    padding: 1.2rem;
+    border-radius: 12px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.form-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-label {
+    color: #fff;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+}
+
+.form-control, .form-select {
+    background: rgba(255, 255, 255, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #fff;
+    border-radius: 8px;
+    padding: 0.75rem;
+}
+
+.form-control:focus, .form-select:focus {
+    background: rgba(255, 255, 255, 0.15);
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 0.2rem rgba(0, 210, 255, 0.25);
+    color: #fff;
+}
+
+.form-control::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.form-select option {
+    background: var(--primary-color);
+    color: #fff;
+}
+
+/* Duel Cards */
+.duels-list {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+
+.duel-card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(86, 171, 47, 0.3);
+    border-radius: 12px;
+    padding: 1rem;
+    transition: all 0.2s ease;
+}
+
+.duel-card.pending {
+    border-color: rgba(255, 193, 7, 0.3);
+    background: rgba(255, 193, 7, 0.05);
+}
+
+.duel-card:hover {
+    transform: translateY(-2px);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.duel-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.duel-user {
+    display: flex;
+    align-items: center;
+    color: #fff;
+    font-size: 1rem;
+}
+
+.duel-badges {
+    display: flex;
+    gap: 0.5rem;
+}
+
+/* Game Mode Badges */
+.mode-badge {
+    display: inline-block;
+    padding: 0.2rem 0.6rem;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-left: 0.5rem;
+}
+
+.mode-simple {
+    background: rgba(86, 171, 47, 0.2);
+    color: var(--success-color);
+    border: 1px solid rgba(86, 171, 47, 0.3);
+}
+
+.mode-changeable {
+    background: rgba(255, 193, 7, 0.2);
+    color: #ffc107;
+    border: 1px solid rgba(255, 193, 7, 0.3);
+}
+
+.mode-super {
+    background: rgba(255, 107, 107, 0.2);
+    color: var(--warning-color);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+}
+
+.board-badge {
+    background: rgba(0, 210, 255, 0.2);
+    color: var(--accent-color);
+    border: 1px solid rgba(0, 210, 255, 0.3);
+    padding: 0.2rem 0.5rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 600;
+}
+
+.duel-time {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 0.85rem;
+    margin-bottom: 0.8rem;
+}
+
+.duel-actions {
+    display: flex;
+    gap: 0.5rem;
+    justify-content: flex-end;
+}
+
+.btn-action {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    font-weight: 600;
+    transition: all 0.2s ease;
+    display: flex;
+    align-items: center;
+    gap: 0.3rem;
+}
+
+.btn-accept {
+    background: var(--success-color);
+    color: #fff;
+}
+
+.btn-reject {
+    background: var(--warning-color);
+    color: #fff;
+}
+
+.btn-cancel {
+    background: rgba(255, 107, 107, 0.8);
+    color: #fff;
+}
+
+.btn-action:hover {
+    transform: translateY(-1px);
+    opacity: 0.9;
+}
+
+/* Game Ready Section */
+.game-ready-section {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2000;
+    background: rgba(0, 0, 0, 0.9);
+    padding: 2rem;
+    border-radius: 15px;
+    border: 2px solid var(--accent-color);
+    min-width: 300px;
+    text-align: center;
+}
+
+.ready-card {
+    color: #fff;
+}
+
+.ready-header {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    color: var(--accent-color);
+}
+
+.ready-content {
+    margin-bottom: 1.5rem;
+}
+
+.ready-opponent {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+}
+
+.ready-board {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.btn-ready {
+    background: var(--accent-color);
+    color: #fff;
+    border: none;
+    padding: 0.8rem 2rem;
+    border-radius: 10px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.btn-ready:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 210, 255, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    :root {
+        --sidebar-width: 240px;
+    }
+
+    .page-title {
+        font-size: 1.5rem;
+    }
+
+    .action-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .profile-header {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .profile-avatar {
+        margin-right: 0;
+        margin-bottom: 1rem;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 0.8rem;
+    }
+
+    .tab-btn {
+        font-size: 0.8rem;
+        padding: 0.6rem 0.5rem;
+    }
+
+    .duel-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+
+    .duel-actions {
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .friends-scroll {
+        justify-content: flex-start;
+    }
+
+    .game-ready-section {
+        margin: 1rem;
+        width: calc(100% - 2rem);
+        min-width: unset;
+    }
+}
+
+@media (max-width: 480px) {
+    :root {
+        --sidebar-width: 220px;
+    }
+
+    .nested-sidebar.active {
+        left: 220px;
+    }
+
+    .page-card {
+        padding: 1.5rem;
+    }
+
+    .main-content {
+        padding: 0.8rem;
+    }
+
+    .tab-btn {
+        flex-direction: column;
+        gap: 0.2rem;
+        font-size: 0.75rem;
+    }
+
+    .friend-chip-compact {
+        min-width: 50px;
+        padding: 0.5rem 0.6rem;
+        font-size: 0.75rem;
+    }
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+    width: 4px;
+}
+
+::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 2px;
+}
+
+/* Touch-friendly improvements */
+.menu-item, .hamburger-btn, .back-btn, .action-btn {
+    -webkit-tap-highlight-color: transparent;
+    touch-action: manipulation;
+}
+
+/* Prevent text selection on UI elements */
+.navbar, .sidebar, .nested-sidebar {
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+/* Animations */
+@keyframes slideIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+.friend-chip-compact:hover {
+    animation: pulse 0.3s ease;
+}

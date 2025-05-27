@@ -1,0 +1,204 @@
+<div class="page-card">
+    <h1 class="page-title">
+        <i class="fas fa-user-friends me-3" style="color: #56ab2f;"></i>
+        Do'st bilan o'yin
+    </h1>
+    <p class="page-subtitle">Do'stingizga duel yuboring va birga o'ynang</p>
+
+    <!-- Tab Navigation -->
+    <div class="duel-tabs">
+        <button class="tab-btn active" onclick="switchTab('send')" id="sendTab">
+            <i class="fas fa-paper-plane me-2"></i>
+            Duel Yuborish
+        </button>
+        <button class="tab-btn" onclick="switchTab('received')" id="receivedTab">
+            <i class="fas fa-inbox me-2"></i>
+            Kelgan Duellar
+            <span class="badge bg-warning ms-2" id="duelCount">2</span>
+        </button>
+        <button class="tab-btn" onclick="switchTab('sent')" id="sentTab">
+            <i class="fas fa-clock me-2"></i>
+            Yuborilgan
+            <span class="badge bg-info ms-2" id="sentCount">1</span>
+        </button>
+    </div>
+
+    <!-- Send Duel Tab -->
+    <div class="tab-content active" id="sendContent">
+        <!-- Compact Friends Quick Select -->
+        <div class="friends-compact">
+            <label class="form-label">Tez tanlash:</label>
+            <div class="friends-scroll">
+                <span class="friend-chip-compact" onclick="selectFriend('@ahmad_xo')">
+                    <i class="fas fa-user"></i>
+                    Ahmad
+                </span>
+                <span class="friend-chip-compact" onclick="selectFriend('@zarina_pro')">
+                    <i class="fas fa-user"></i>
+                    Zarina
+                </span>
+                <span class="friend-chip-compact" onclick="selectFriend('@sardor_123')">
+                    <i class="fas fa-user"></i>
+                    Sardor
+                </span>
+                <span class="friend-chip-compact" onclick="selectFriend('@nodir_game')">
+                    <i class="fas fa-user"></i>
+                    Nodir
+                </span>
+                <span class="friend-chip-compact" onclick="selectFriend('@ali_pro')">
+                    <i class="fas fa-user"></i>
+                    Ali
+                </span>
+                <span class="friend-chip-compact" onclick="selectFriend('@bekzod_xo')">
+                    <i class="fas fa-user"></i>
+                    Bekzod
+                </span>
+            </div>
+        </div>
+
+        <form id="duelForm" class="compact-form">
+            <div class="form-row">
+                <div class="form-col">
+                    <label class="form-label">Username:</label>
+                    <input type="text" id="friendUsername" class="form-control" placeholder="@username" required />
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Mode:</label>
+                    <select id="gameMode" class="form-select">
+                        <option value="simple">Simple</option>
+                        <option value="changeable">Changeable</option>
+                        <option value="super">Super</option>
+                    </select>
+                </div>
+                <div class="form-col">
+                    <label class="form-label">Board:</label>
+                    <select id="boardSize" class="form-select">
+                        <option value="3x3">3x3</option>
+                        <option value="6x6">6x6</option>
+                        <option value="9x9">9x9</option>
+                    </select>
+                </div>
+            </div>
+
+            <button type="submit" class="btn btn-success w-100 mt-3">
+                <i class="fas fa-paper-plane me-2"></i>
+                Duel Yuborish
+            </button>
+        </form>
+
+        <div id="duelStatus" class="alert d-none mt-3"></div>
+    </div>
+
+    <!-- Received Duels Tab -->
+    <div class="tab-content" id="receivedContent">
+        <div class="duels-list" id="duelNotifications">
+            <!-- Kelgan duel 1 -->
+            <div class="duel-card">
+                <div class="duel-header">
+                    <div class="duel-user">
+                        <i class="fas fa-user-circle me-2"></i>
+                        <strong>@ahmad_xo</strong>
+                    </div>
+                    <div class="duel-badges">
+                        <span class="mode-badge mode-simple">Simple</span>
+                        <span class="board-badge">3x3</span>
+                    </div>
+                </div>
+                <div class="duel-time">
+                    <i class="fas fa-clock me-1"></i>
+                    2 daqiqa oldin
+                </div>
+                <div class="duel-actions">
+                    <button class="btn-action btn-accept" onclick="acceptDuel('@ahmad_xo', 'simple', '3x3')">
+                        <i class="fas fa-check"></i>
+                        Qabul
+                    </button>
+                    <button class="btn-action btn-reject" onclick="rejectDuel('@ahmad_xo')">
+                        <i class="fas fa-times"></i>
+                        Rad
+                    </button>
+                </div>
+            </div>
+
+            <!-- Kelgan duel 2 -->
+            <div class="duel-card">
+                <div class="duel-header">
+                    <div class="duel-user">
+                        <i class="fas fa-user-circle me-2"></i>
+                        <strong>@zarina_pro</strong>
+                    </div>
+                    <div class="duel-badges">
+                        <span class="mode-badge mode-changeable">Changeable</span>
+                        <span class="board-badge">6x6</span>
+                    </div>
+                </div>
+                <div class="duel-time">
+                    <i class="fas fa-clock me-1"></i>
+                    5 daqiqa oldin
+                </div>
+                <div class="duel-actions">
+                    <button class="btn-action btn-accept" onclick="acceptDuel('@zarina_pro', 'changeable', '6x6')">
+                        <i class="fas fa-check"></i>
+                        Qabul
+                    </button>
+                    <button class="btn-action btn-reject" onclick="rejectDuel('@zarina_pro')">
+                        <i class="fas fa-times"></i>
+                        Rad
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Sent Duels Tab -->
+    <div class="tab-content" id="sentContent">
+        <div class="duels-list" id="sentDuels">
+            <!-- Yuborilgan duel -->
+            <div class="duel-card pending">
+                <div class="duel-header">
+                    <div class="duel-user">
+                        <i class="fas fa-user-circle me-2"></i>
+                        <strong>@sardor_123</strong>
+                    </div>
+                    <div class="duel-badges">
+                        <span class="mode-badge mode-super">Super</span>
+                        <span class="board-badge">3x3</span>
+                    </div>
+                </div>
+                <div class="duel-time">
+                    <i class="fas fa-hourglass-half me-1"></i>
+                    Javob kutilmoqda...
+                </div>
+                <div class="duel-actions">
+                    <button class="btn-action btn-cancel" onclick="cancelDuel('@sardor_123')">
+                        <i class="fas fa-times"></i>
+                        Bekor qilish
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- O'yin Tayyorligi Section -->
+    <div class="game-ready-section d-none" id="gameReadySection">
+        <div class="ready-card">
+            <div class="ready-header">
+                <i class="fas fa-gamepad me-2"></i>
+                <strong>O'yin Tayyor!</strong>
+            </div>
+            <div class="ready-content">
+                <div class="ready-opponent">
+                    <span id="gameOpponent">@ahmad_xo</span> bilan o'yin
+                    <span class="mode-badge mode-simple" id="gameModeDisplay">Simple</span>
+                </div>
+                <div class="ready-board">
+                    Board: <span id="gameBoard">3x3</span>
+                </div>
+            </div>
+            <button class="btn-ready" onclick="joinGame()">
+                <i class="fas fa-play me-2"></i>
+                O'yinga kirish
+            </button>
+        </div>
+    </div>
+</div>
