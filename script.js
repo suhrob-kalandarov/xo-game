@@ -4,6 +4,19 @@ let currentNestedSidebar = null
 let activeMenuItem = null
 let selectedFriend = null
 
+// Game Variables
+const gameState = {
+    board: [],
+    currentPlayer: "X",
+    gameMode: "simple",
+    boardSize: 3,
+    opponent: "",
+    isGameActive: true,
+    playerScore: 0,
+    opponentScore: 0,
+    winCondition: 3,
+}
+
 // Page Management
 function showPage(pageId) {
     loadPage(pageId)
@@ -40,9 +53,364 @@ function initializePage(pageId) {
         case "profile":
             initializeProfilePage()
             break
+        case "game":
+            initializeGamePage()
+            break
         default:
             break
     }
+}
+
+// Game Functions
+function initializeGamePage() {
+    console.log("🎮 Game page initialized!")
+
+    // Update game info display
+    updateGameInfo()
+
+    // Create game board
+    createGameBoard()
+
+    // Update game status
+    updateGameStatus()
+}
+
+function startGame(opponent, gameMode, boardSize) {
+    // Set game parameters
+    gameState.opponent = opponent
+    gameState.gameMode = gameMode
+    gameState.boardSize = Number.parseInt(boardSize.split("x")[0])
+    gameState.winCondition = gameState.boardSize >= 5 ? 4 : 3 // 4 in a row for larger boards
+
+    // Reset game state
+    resetGameState()
+
+    // Navigate to game page
+    showPage("game")
+}
+
+function resetGameState() {
+    const size = gameState.boardSize
+    gameState.board = Array(size * size).fill("")
+    gameState.currentPlayer = "X"
+    gameState.isGameActive = true
+}
+
+function createGameBoard() {
+    const gameBoard = document.getElementById("gameBoard")
+    if (!gameBoard) return
+
+    const size = gameState.boardSize
+
+    // Clear existing board
+    gameBoard.innerHTML = ""
+
+    // Set board size class
+    gameBoard.className = `game-board size-${size}`
+
+    // Create board cells
+    for (let i = 0; i < size * size; i++) {
+        const cell = document.createElement("div")
+        cell.className = "board-cell"
+        cell.dataset.index = i
+        cell.addEventListener("click", () => handleCellClick(i))
+        gameBoard.appendChild(cell)
+    }
+}
+
+function handleCellClick(index) {
+    // Check if game is active and cell is empty
+    if (!gameState.isGameActive || gameState.board[index] !== "") {
+        return
+    }
+
+    // Make move
+    makeMove(index, gameState.currentPlayer)
+
+    // Check for win or draw
+    if (checkWin(gameState.currentPlayer)) {
+        endGame(gameState.currentPlayer)
+        return
+    }
+
+    if (checkDraw()) {
+        endGame("draw")
+        return
+    }
+
+    // Switch player
+    gameState.currentPlayer = gameState.currentPlayer === "X" ? "O" : "X"
+    updateGameStatus()
+
+    // AI move for opponent (simple random move)
+    if (gameState.currentPlayer === "O") {
+        setTimeout(() => {
+            makeAIMove()
+        }, 500)
+    }
+}
+
+function makeMove(index, player) {
+    gameState.board[index] = player
+
+    const cell = document.querySelector(`[data-index="${index}"]`)
+    if (cell) {
+        cell.textContent = player
+        cell.classList.add("filled", `player-${player.toLowerCase()}`)
+    }
+}
+
+function makeAIMove() {
+    if (!gameState.isGameActive) return
+
+    // Simple AI: random empty cell
+    const emptyCells = gameState.board
+        .map((cell, index) => (cell === "" ? index : null))
+        .filter((index) => index !== null)
+
+    if (emptyCells.length === 0) return
+
+    const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)]
+
+    makeMove(randomIndex, "O")
+
+    // Check for win or draw
+    if (checkWin("O")) {
+        endGame("O")
+        return
+    }
+
+    if (checkDraw()) {
+        endGame("draw")
+        return
+    }
+
+    // Switch back to player
+    gameState.currentPlayer = "X"
+    updateGameStatus()
+}
+
+function checkWin(player) {
+    const size = gameState.boardSize
+    const winCondition = gameState.winCondition
+    const board = gameState.board
+
+    // Check rows
+    for (let row = 0; row < size; row++) {
+        for (let col = 0; col <= size - winCondition; col++) {
+            let count = 0
+            const winningCells = []
+
+            for (let i = 0; i < winCondition; i++) {
+                const index = row * size + col + i
+                if (board[index] === player) {
+                    count++
+                    winningCells.push(index)
+                }
+            }
+
+            if (count === winCondition) {
+                highlightWinningCells(winningCells)
+                return true
+            }
+        }
+    }
+
+    // Check columns
+    for (let col = 0; col < size; col++) {
+        for (let row = 0; row <= size - winCondition; row++) {
+            let count = 0
+            const winningCells = []
+
+            for (let i = 0; i < winCondition; i++) {
+                const index = (row + i) * size + col
+                if (board[index] === player) {
+                    count++
+                    winningCells.push(index)
+                }
+            }
+
+            if (count === winCondition) {
+                highlightWinningCells(winningCells)
+                return true
+            }
+        }
+    }
+
+    // Check diagonals (top-left to bottom-right)
+    for (let row = 0; row <= size - winCondition; row++) {
+        for (let col = 0; col <= size - winCondition; col++) {
+            let count = 0
+            const winningCells = []
+
+            for (let i = 0; i < winCondition; i++) {
+                const index = (row + i) * size + (col + i)
+                if (board[index] === player) {
+                    count++
+                    winningCells.push(index)
+                }
+            }
+
+            if (count === winCondition) {
+                highlightWinningCells(winningCells)
+                return true
+            }
+        }
+    }
+
+    // Check diagonals (top-right to bottom-left)
+    for (let row = 0; row <= size - winCondition; row++) {
+        for (let col = winCondition - 1; col < size; col++) {
+            let count = 0
+            const winningCells = []
+
+            for (let i = 0; i < winCondition; i++) {
+                const index = (row + i) * size + (col - i)
+                if (board[index] === player) {
+                    count++
+                    winningCells.push(index)
+                }
+            }
+
+            if (count === winCondition) {
+                highlightWinningCells(winningCells)
+                return true
+            }
+        }
+    }
+
+    return false
+}
+
+function checkDraw() {
+    return gameState.board.every((cell) => cell !== "")
+}
+
+function highlightWinningCells(cells) {
+    cells.forEach((index) => {
+        const cell = document.querySelector(`[data-index="${index}"]`)
+        if (cell) {
+            cell.classList.add("winning-cell")
+        }
+    })
+}
+
+function endGame(winner) {
+    gameState.isGameActive = false
+
+    // Update scores
+    if (winner === "X") {
+        gameState.playerScore++
+    } else if (winner === "O") {
+        gameState.opponentScore++
+    }
+
+    updateScoreDisplay()
+
+    // Show result modal
+    setTimeout(() => {
+        showGameResult(winner)
+    }, 1000)
+}
+
+function showGameResult(winner) {
+    const modal = document.getElementById("gameResultModal")
+    const resultIcon = document.getElementById("resultIcon")
+    const resultText = document.getElementById("resultText")
+
+    if (!modal || !resultIcon || !resultText) return
+
+    // Clear previous classes
+    resultIcon.className = "result-icon"
+
+    if (winner === "X") {
+        resultIcon.classList.add("win")
+        resultIcon.innerHTML = '<i class="fas fa-trophy"></i>'
+        resultText.textContent = "Siz yutdingiz! 🎉"
+    } else if (winner === "O") {
+        resultIcon.classList.add("lose")
+        resultIcon.innerHTML = '<i class="fas fa-times-circle"></i>'
+        resultText.textContent = "Siz yutqazdingiz! 😔"
+    } else {
+        resultIcon.classList.add("draw")
+        resultIcon.innerHTML = '<i class="fas fa-handshake"></i>'
+        resultText.textContent = "Durrang! 🤝"
+    }
+
+    modal.classList.remove("d-none")
+}
+
+function updateGameInfo() {
+    const modeElement = document.getElementById("currentGameMode")
+    const sizeElement = document.getElementById("currentBoardSize")
+    const opponentElement = document.getElementById("currentOpponent")
+
+    if (modeElement) modeElement.textContent = gameState.gameMode
+    if (sizeElement) sizeElement.textContent = `${gameState.boardSize}x${gameState.boardSize}`
+    if (opponentElement) opponentElement.textContent = gameState.opponent
+}
+
+function updateGameStatus() {
+    const playerIndicator = document.getElementById("currentPlayerIndicator")
+    const playerIcon = document.getElementById("playerIcon")
+    const playerName = document.getElementById("playerName")
+
+    if (!playerIndicator || !playerIcon || !playerName) return
+
+    if (gameState.currentPlayer === "X") {
+        playerIndicator.className = "player-indicator"
+        playerIcon.className = "fas fa-times"
+        playerName.textContent = "Siz"
+    } else {
+        playerIndicator.className = "player-indicator player-o"
+        playerIcon.className = "fas fa-circle"
+        playerName.textContent = gameState.opponent
+    }
+}
+
+function updateScoreDisplay() {
+    const playerScore = document.getElementById("playerScore")
+    const opponentScore = document.getElementById("opponentScore")
+
+    if (playerScore) playerScore.textContent = gameState.playerScore
+    if (opponentScore) opponentScore.textContent = gameState.opponentScore
+}
+
+function restartGame() {
+    resetGameState()
+    createGameBoard()
+    updateGameStatus()
+
+    // Hide result modal if visible
+    const modal = document.getElementById("gameResultModal")
+    if (modal) {
+        modal.classList.add("d-none")
+    }
+
+    showNotification("🔄 O'yin qayta boshlandi!", "info")
+}
+
+function newGame() {
+    gameState.playerScore = 0
+    gameState.opponentScore = 0
+    updateScoreDisplay()
+    restartGame()
+    showNotification("🆕 Yangi o'yin boshlandi!", "success")
+}
+
+function quitGame() {
+    if (confirm("Rostdan ham o'yindan chiqishni xohlaysizmi?")) {
+        showPage("friends")
+        showNotification("👋 O'yindan chiqildi", "info")
+    }
+}
+
+function playAgain() {
+    restartGame()
+}
+
+function backToFriends() {
+    showPage("friends")
 }
 
 // Sidebar Management
@@ -258,11 +626,11 @@ function acceptDuel(username, gameMode, boardSize) {
     // Update count
     updateReceivedCount()
 
-    // Show game ready
-    showGameReady(username, gameMode, boardSize)
+    // Start game
+    startGame(username, gameMode, boardSize)
 
     // Success notification
-    showNotification(`✅ ${username} bilan o'yin qabul qilindi!`, "success")
+    showNotification(`✅ ${username} bilan o'yin boshlandi!`, "success")
 }
 
 function rejectDuel(username) {
@@ -352,13 +720,11 @@ function joinGame() {
     // Hide game ready section
     document.getElementById("gameReadySection").classList.add("d-none")
 
-    // Game start notification
-    showNotification(`🎮 ${opponent} bilan ${mode} ${board} o'yini boshlanmoqda...`, "primary")
+    // Start game
+    startGame(opponent, mode.toLowerCase(), board)
 
-    // Game start simulation
-    setTimeout(() => {
-        alert(`O'yin boshlanadi!\nRaqib: ${opponent}\nMode: ${mode}\nBoard: ${board}`)
-    }, 1000)
+    // Game start notification
+    showNotification(`🎮 ${opponent} bilan ${mode} ${board} o'yini boshlandi!`, "primary")
 }
 
 function updateSentCount() {
