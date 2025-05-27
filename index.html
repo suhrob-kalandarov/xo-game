@@ -690,6 +690,713 @@
             -ms-user-select: none;
             user-select: none;
         }
+
+        /* Tab Navigation Styles */
+        .duel-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 0.3rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Compact Friends Select */
+        .friends-compact {
+            margin-bottom: 1rem;
+        }
+
+        .friends-scroll {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            scrollbar-width: thin;
+        }
+
+        .friends-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .friends-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .friends-scroll::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .friend-chip-compact {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(86, 171, 47, 0.2);
+            border: 1px solid rgba(86, 171, 47, 0.3);
+            color: #fff;
+            padding: 0.6rem 0.8rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            min-width: 60px;
+            white-space: nowrap;
+        }
+
+        .friend-chip-compact:hover {
+            background: rgba(86, 171, 47, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .friend-chip-compact.selected {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            transform: scale(1.05);
+        }
+
+        .friend-chip-compact i {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Compact Form */
+        .compact-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Duel Cards */
+        .duels-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .duel-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(86, 171, 47, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .duel-card.pending {
+            border-color: rgba(255, 193, 7, 0.3);
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        .duel-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .duel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .duel-user {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .duel-badges {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .board-badge {
+            background: rgba(0, 210, 255, 0.2);
+            color: var(--accent-color);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .duel-time {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .duel-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .btn-accept {
+            background: var(--success-color);
+            color: #fff;
+        }
+
+        .btn-reject {
+            background: var(--warning-color);
+            color: #fff;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 107, 107, 0.8);
+            color: #fff;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        /* Game Ready Section */
+        .game-ready-section {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--accent-color);
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .ready-card {
+            color: #fff;
+        }
+
+        .ready-header {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .ready-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .ready-opponent {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ready-board {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .btn-ready {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ready:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 210, 255, 0.3);
+        }
+
+        /* Responsive Design for Tabs */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .tab-btn {
+                font-size: 0.8rem;
+                padding: 0.6rem 0.5rem;
+            }
+
+            .duel-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .duel-actions {
+                justify-content: flex-start;
+                width: 100%;
+            }
+
+            .friends-scroll {
+                justify-content: flex-start;
+            }
+
+            .game-ready-section {
+                margin: 1rem;
+                width: calc(100% - 2rem);
+                min-width: unset;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tab-btn {
+                flex-direction: column;
+                gap: 0.2rem;
+                font-size: 0.75rem;
+            }
+
+            .friend-chip-compact {
+                min-width: 50px;
+                padding: 0.5rem 0.6rem;
+                font-size: 0.75rem;
+            }
+        }
+        \`\`\`
+
+        And add this JavaScript function for tab switching:
+
+        \`\`\`javascript
+        // Tab switching function
+           function switchTab(tabName) {
+        // Remove active class from all tabs and contents
+        document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(content => content.classList.remove('active'));
+
+        // Add active class to selected tab and content
+        document.getElementById(tabName + 'Tab').classList.add('active');
+        document.getElementById(tabName + 'Content').classList.add('active');
+        }
+
+        // Update the selectFriend function to work with compact chips
+           function selectFriend(username) {
+        // Remove selected class from all chips
+        document.querySelectorAll('.friend-chip-compact').forEach(chip => {
+        chip.classList.remove('selected');
+        });
+
+        // Add selected class to clicked chip
+        event.target.classList.add('selected');
+
+        // Set username in input
+        document.getElementById('friendUsername').value = username;
+            selectedFriend = username;
+
+        // Success notification
+        showNotification(`✅ ${username} tanlandi!`, 'success');
+        }
+
+        // Update sent duels count
+           function updateSentCount() {
+            const sentDuels = document.getElementById('sentDuels');
+            const count = sentDuels.querySelectorAll('.duel-card').length;
+        document.getElementById('sentCount').textContent = count;
+        }
+
+        // Update received duels count
+           function updateReceivedCount() {
+            const receivedDuels = document.getElementById('duelNotifications');
+            const count = receivedDuels.querySelectorAll('.duel-card').length;
+        document.getElementById('duelCount').textContent = count;
+        }
+        \`\`\`
+        */
+
+        /* Tab Navigation Styles */
+        .duel-tabs {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 0.3rem;
+            margin-bottom: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .tab-btn {
+            flex: 1;
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.7);
+            padding: 0.8rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-weight: 500;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .tab-btn.active {
+            background: var(--accent-color);
+            color: #fff;
+            transform: translateY(-1px);
+        }
+
+        .tab-btn:hover:not(.active) {
+            background: rgba(255, 255, 255, 0.1);
+            color: #fff;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Compact Friends Select */
+        .friends-compact {
+            margin-bottom: 1rem;
+        }
+
+        .friends-scroll {
+            display: flex;
+            gap: 0.5rem;
+            overflow-x: auto;
+            padding: 0.5rem 0;
+            scrollbar-width: thin;
+        }
+
+        .friends-scroll::-webkit-scrollbar {
+            height: 4px;
+        }
+
+        .friends-scroll::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 2px;
+        }
+
+        .friends-scroll::-webkit-scrollbar-thumb {
+            background: var(--accent-color);
+            border-radius: 2px;
+        }
+
+        .friend-chip-compact {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: rgba(86, 171, 47, 0.2);
+            border: 1px solid rgba(86, 171, 47, 0.3);
+            color: #fff;
+            padding: 0.6rem 0.8rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-size: 0.8rem;
+            min-width: 60px;
+            white-space: nowrap;
+        }
+
+        .friend-chip-compact:hover {
+            background: rgba(86, 171, 47, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .friend-chip-compact.selected {
+            background: var(--success-color);
+            border-color: var(--success-color);
+            transform: scale(1.05);
+        }
+
+        .friend-chip-compact i {
+            font-size: 1.2rem;
+            margin-bottom: 0.3rem;
+        }
+
+        /* Compact Form */
+        .compact-form {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1.2rem;
+            border-radius: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .form-col {
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Duel Cards */
+        .duels-list {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .duel-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(86, 171, 47, 0.3);
+            border-radius: 12px;
+            padding: 1rem;
+            transition: all 0.2s ease;
+        }
+
+        .duel-card.pending {
+            border-color: rgba(255, 193, 7, 0.3);
+            background: rgba(255, 193, 7, 0.05);
+        }
+
+        .duel-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .duel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .duel-user {
+            display: flex;
+            align-items: center;
+            color: #fff;
+            font-size: 1rem;
+        }
+
+        .duel-badges {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .board-badge {
+            background: rgba(0, 210, 255, 0.2);
+            color: var(--accent-color);
+            border: 1px solid rgba(0, 210, 255, 0.3);
+            padding: 0.2rem 0.5rem;
+            border-radius: 8px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+
+        .duel-time {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.85rem;
+            margin-bottom: 0.8rem;
+        }
+
+        .duel-actions {
+            display: flex;
+            gap: 0.5rem;
+            justify-content: flex-end;
+        }
+
+        .btn-action {
+            padding: 0.5rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-weight: 600;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 0.3rem;
+        }
+
+        .btn-accept {
+            background: var(--success-color);
+            color: #fff;
+        }
+
+        .btn-reject {
+            background: var(--warning-color);
+            color: #fff;
+        }
+
+        .btn-cancel {
+            background: rgba(255, 107, 107, 0.8);
+            color: #fff;
+        }
+
+        .btn-action:hover {
+            transform: translateY(-1px);
+            opacity: 0.9;
+        }
+
+        /* Game Ready Section */
+        .game-ready-section {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 2000;
+            background: rgba(0, 0, 0, 0.9);
+            padding: 2rem;
+            border-radius: 15px;
+            border: 2px solid var(--accent-color);
+            min-width: 300px;
+            text-align: center;
+        }
+
+        .ready-card {
+            color: #fff;
+        }
+
+        .ready-header {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+            color: var(--accent-color);
+        }
+
+        .ready-content {
+            margin-bottom: 1.5rem;
+        }
+
+        .ready-opponent {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .ready-board {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .btn-ready {
+            background: var(--accent-color);
+            color: #fff;
+            border: none;
+            padding: 0.8rem 2rem;
+            border-radius: 10px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .btn-ready:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 210, 255, 0.3);
+        }
+
+        /* Responsive Design for Tabs */
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+            }
+
+            .tab-btn {
+                font-size: 0.8rem;
+                padding: 0.6rem 0.5rem;
+            }
+
+            .duel-header {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 0.5rem;
+            }
+
+            .duel-actions {
+                justify-content: flex-start;
+                width: 100%;
+            }
+
+            .friends-scroll {
+                justify-content: flex-start;
+            }
+
+            .game-ready-section {
+                margin: 1rem;
+                width: calc(100% - 2rem);
+                min-width: unset;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .tab-btn {
+                flex-direction: column;
+                gap: 0.2rem;
+                font-size: 0.75rem;
+            }
+
+            .friend-chip-compact {
+                min-width: 50px;
+                padding: 0.5rem 0.6rem;
+                font-size: 0.75rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -1005,6 +1712,7 @@
         </div>
 
         <!-- Play with Friends Page - ENHANCED -->
+        <!-- Play with Friends Page - COMPACT & ORGANIZED -->
         <div class="page" id="friends">
             <div class="page-card">
                 <h1 class="page-title">
@@ -1013,57 +1721,82 @@
                 </h1>
                 <p class="page-subtitle">Do'stingizga duel yuboring va birga o'ynang</p>
 
-                <!-- Duel Yuborish Section -->
-                <div class="duel-section">
-                    <h4 class="text-white mb-3">
+                <!-- Tab Navigation -->
+                <div class="duel-tabs">
+                    <button class="tab-btn active" onclick="switchTab('send')" id="sendTab">
                         <i class="fas fa-paper-plane me-2"></i>
                         Duel Yuborish
-                    </h4>
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('received')" id="receivedTab">
+                        <i class="fas fa-inbox me-2"></i>
+                        Kelgan Duellar
+                        <span class="badge bg-warning ms-2" id="duelCount">2</span>
+                    </button>
+                    <button class="tab-btn" onclick="switchTab('sent')" id="sentTab">
+                        <i class="fas fa-clock me-2"></i>
+                        Yuborilgan
+                        <span class="badge bg-info ms-2" id="sentCount">1</span>
+                    </button>
+                </div>
 
-                    <!-- Quick Friends Select -->
-                    <div class="friends-quick-select">
+                <!-- Send Duel Tab -->
+                <div class="tab-content active" id="sendContent">
+                    <!-- Compact Friends Quick Select -->
+                    <div class="friends-compact">
                         <label class="form-label">Tez tanlash:</label>
-                        <div>
-                            <span class="friend-chip" onclick="selectFriend('@ahmad_xo')">
-                                <i class="fas fa-user me-1"></i>Ahmad XO
-                            </span>
-                            <span class="friend-chip" onclick="selectFriend('@zarina_pro')">
-                                <i class="fas fa-user me-1"></i>Zarina Pro
-                            </span>
-                            <span class="friend-chip" onclick="selectFriend('@sardor_123')">
-                                <i class="fas fa-user me-1"></i>Sardor 123
-                            </span>
-                            <span class="friend-chip" onclick="selectFriend('@nodir_game')">
-                                <i class="fas fa-user me-1"></i>Nodir Game
-                            </span>
+                        <div class="friends-scroll">
+                    <span class="friend-chip-compact" onclick="selectFriend('@ahmad_xo')">
+                        <i class="fas fa-user"></i>
+                        Ahmad
+                    </span>
+                            <span class="friend-chip-compact" onclick="selectFriend('@zarina_pro')">
+                        <i class="fas fa-user"></i>
+                        Zarina
+                    </span>
+                            <span class="friend-chip-compact" onclick="selectFriend('@sardor_123')">
+                        <i class="fas fa-user"></i>
+                        Sardor
+                    </span>
+                            <span class="friend-chip-compact" onclick="selectFriend('@nodir_game')">
+                        <i class="fas fa-user"></i>
+                        Nodir
+                    </span>
+                            <span class="friend-chip-compact" onclick="selectFriend('@ali_pro')">
+                        <i class="fas fa-user"></i>
+                        Ali
+                    </span>
+                            <span class="friend-chip-compact" onclick="selectFriend('@bekzod_xo')">
+                        <i class="fas fa-user"></i>
+                        Bekzod
+                    </span>
                         </div>
                     </div>
 
-                    <form id="duelForm" class="duel-form">
-                        <div class="mb-3">
-                            <label class="form-label">Do'stingiz Telegram username'i:</label>
-                            <input type="text" id="friendUsername" class="form-control" placeholder="@username yoki yuqoridan tanlang" required />
+                    <form id="duelForm" class="compact-form">
+                        <div class="form-row">
+                            <div class="form-col">
+                                <label class="form-label">Username:</label>
+                                <input type="text" id="friendUsername" class="form-control" placeholder="@username" required />
+                            </div>
+                            <div class="form-col">
+                                <label class="form-label">Mode:</label>
+                                <select id="gameMode" class="form-select">
+                                    <option value="simple">Simple</option>
+                                    <option value="changeable">Changeable</option>
+                                    <option value="super">Super</option>
+                                </select>
+                            </div>
+                            <div class="form-col">
+                                <label class="form-label">Board:</label>
+                                <select id="boardSize" class="form-select">
+                                    <option value="3x3">3x3</option>
+                                    <option value="6x6">6x6</option>
+                                    <option value="9x9">9x9</option>
+                                </select>
+                            </div>
                         </div>
 
-                        <div class="mb-3">
-                            <label class="form-label">Game Mode:</label>
-                            <select id="gameMode" class="form-select">
-                                <option value="simple">Simple - Oddiy o'yin</option>
-                                <option value="changeable">Changeable - O'zgaruvchan qoidalar</option>
-                                <option value="super">Super - Murakkab rejim</option>
-                            </select>
-                        </div>
-
-                        <div class="mb-3">
-                            <label class="form-label">Board Size:</label>
-                            <select id="boardSize" class="form-select">
-                                <option value="3x3">3x3 (Klassik)</option>
-                                <option value="6x6">6x6 (O'rta)</option>
-                                <option value="9x9">9x9 (Katta)</option>
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-success">
+                        <button type="submit" class="btn btn-success w-100 mt-3">
                             <i class="fas fa-paper-plane me-2"></i>
                             Duel Yuborish
                         </button>
@@ -1072,97 +1805,89 @@
                     <div id="duelStatus" class="alert d-none mt-3"></div>
                 </div>
 
-                <!-- Kelgan Duellar Section -->
-                <div class="duel-section">
-                    <h4 class="text-white mb-3">
-                        <i class="fas fa-inbox me-2"></i>
-                        Kelgan Duellar
-                        <span class="badge bg-warning ms-2" id="duelCount">2</span>
-                    </h4>
-
-                    <div class="duel-notifications" id="duelNotifications">
+                <!-- Received Duels Tab -->
+                <div class="tab-content" id="receivedContent">
+                    <div class="duels-list" id="duelNotifications">
                         <!-- Kelgan duel 1 -->
-                        <div class="notification-item">
-                            <div class="notification-content">
-                                <h5>
-                                    <i class="fas fa-user me-2"></i>
-                                    @ahmad_xo dan duel
+                        <div class="duel-card">
+                            <div class="duel-header">
+                                <div class="duel-user">
+                                    <i class="fas fa-user-circle me-2"></i>
+                                    <strong>@ahmad_xo</strong>
+                                </div>
+                                <div class="duel-badges">
                                     <span class="mode-badge mode-simple">Simple</span>
-                                </h5>
-                                <p>
-                                    <i class="fas fa-th me-1"></i>
-                                    Board: 3x3 |
-                                    <i class="fas fa-clock me-1"></i>
-                                    2 daqiqa oldin
-                                </p>
+                                    <span class="board-badge">3x3</span>
+                                </div>
                             </div>
-                            <div class="notification-actions">
-                                <button class="btn-sm btn-success" onclick="acceptDuel('@ahmad_xo', 'simple', '3x3')">
-                                    <i class="fas fa-check me-1"></i>
-                                    Qabul qilish
+                            <div class="duel-time">
+                                <i class="fas fa-clock me-1"></i>
+                                2 daqiqa oldin
+                            </div>
+                            <div class="duel-actions">
+                                <button class="btn-action btn-accept" onclick="acceptDuel('@ahmad_xo', 'simple', '3x3')">
+                                    <i class="fas fa-check"></i>
+                                    Qabul
                                 </button>
-                                <button class="btn-sm btn-danger" onclick="rejectDuel('@ahmad_xo')">
-                                    <i class="fas fa-times me-1"></i>
-                                    Rad etish
+                                <button class="btn-action btn-reject" onclick="rejectDuel('@ahmad_xo')">
+                                    <i class="fas fa-times"></i>
+                                    Rad
                                 </button>
                             </div>
                         </div>
 
                         <!-- Kelgan duel 2 -->
-                        <div class="notification-item">
-                            <div class="notification-content">
-                                <h5>
-                                    <i class="fas fa-user me-2"></i>
-                                    @zarina_pro dan duel
+                        <div class="duel-card">
+                            <div class="duel-header">
+                                <div class="duel-user">
+                                    <i class="fas fa-user-circle me-2"></i>
+                                    <strong>@zarina_pro</strong>
+                                </div>
+                                <div class="duel-badges">
                                     <span class="mode-badge mode-changeable">Changeable</span>
-                                </h5>
-                                <p>
-                                    <i class="fas fa-th me-1"></i>
-                                    Board: 6x6 |
-                                    <i class="fas fa-clock me-1"></i>
-                                    5 daqiqa oldin
-                                </p>
+                                    <span class="board-badge">6x6</span>
+                                </div>
                             </div>
-                            <div class="notification-actions">
-                                <button class="btn-sm btn-success" onclick="acceptDuel('@zarina_pro', 'changeable', '6x6')">
-                                    <i class="fas fa-check me-1"></i>
-                                    Qabul qilish
+                            <div class="duel-time">
+                                <i class="fas fa-clock me-1"></i>
+                                5 daqiqa oldin
+                            </div>
+                            <div class="duel-actions">
+                                <button class="btn-action btn-accept" onclick="acceptDuel('@zarina_pro', 'changeable', '6x6')">
+                                    <i class="fas fa-check"></i>
+                                    Qabul
                                 </button>
-                                <button class="btn-sm btn-danger" onclick="rejectDuel('@zarina_pro')">
-                                    <i class="fas fa-times me-1"></i>
-                                    Rad etish
+                                <button class="btn-action btn-reject" onclick="rejectDuel('@zarina_pro')">
+                                    <i class="fas fa-times"></i>
+                                    Rad
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
 
-                <!-- Yuborilgan Duellar Section -->
-                <div class="duel-section">
-                    <h4 class="text-white mb-3">
-                        <i class="fas fa-paper-plane me-2"></i>
-                        Yuborilgan Duellar
-                    </h4>
-
-                    <div class="duel-notifications" id="sentDuels">
-                        <!-- Yuborilgan duel - kutilmoqda -->
-                        <div class="notification-item pending">
-                            <div class="notification-content">
-                                <h5>
-                                    <i class="fas fa-clock me-2"></i>
-                                    @sardor_123 ga yuborildi
+                <!-- Sent Duels Tab -->
+                <div class="tab-content" id="sentContent">
+                    <div class="duels-list" id="sentDuels">
+                        <!-- Yuborilgan duel -->
+                        <div class="duel-card pending">
+                            <div class="duel-header">
+                                <div class="duel-user">
+                                    <i class="fas fa-user-circle me-2"></i>
+                                    <strong>@sardor_123</strong>
+                                </div>
+                                <div class="duel-badges">
                                     <span class="mode-badge mode-super">Super</span>
-                                </h5>
-                                <p>
-                                    <i class="fas fa-th me-1"></i>
-                                    Board: 3x3 |
-                                    <i class="fas fa-hourglass-half me-1"></i>
-                                    Javob kutilmoqda...
-                                </p>
+                                    <span class="board-badge">3x3</span>
+                                </div>
                             </div>
-                            <div class="notification-actions">
-                                <button class="btn-sm btn-danger" onclick="cancelDuel('@sardor_123')">
-                                    <i class="fas fa-times me-1"></i>
+                            <div class="duel-time">
+                                <i class="fas fa-hourglass-half me-1"></i>
+                                Javob kutilmoqda...
+                            </div>
+                            <div class="duel-actions">
+                                <button class="btn-action btn-cancel" onclick="cancelDuel('@sardor_123')">
+                                    <i class="fas fa-times"></i>
                                     Bekor qilish
                                 </button>
                             </div>
@@ -1171,882 +1896,13 @@
                 </div>
 
                 <!-- O'yin Tayyorligi Section -->
-                <div class="duel-section d-none" id="gameReadySection">
-                    <h4 class="text-white mb-3">
-                        <i class="fas fa-gamepad me-2"></i>
-                        O'yin Tayyor!
-                    </h4>
-
-                    <div class="notification-item" style="background: rgba(0, 210, 255, 0.1); border-color: rgba(0, 210, 255, 0.3);">
-                        <div class="notification-content">
-                            <h5>
-                                <i class="fas fa-trophy me-2"></i>
+                <div class="game-ready-section d-none" id="gameReadySection">
+                    <div class="ready-card">
+                        <div class="ready-header">
+                            <i class="fas fa-gamepad me-2"></i>
+                            <strong>O'yin Tayyor!</strong>
+                        </div>
+                        <div class="ready-content">
+                            <div class="ready-opponent">
                                 <span id="gameOpponent">@ahmad_xo</span> bilan o'yin
-                                <span class="mode-badge mode-simple" id="gameModeDisplay">Simple</span>
-                            </h5>
-                            <p>
-                                <i class="fas fa-th me-1"></i>
-                                Board: <span id="gameBoard">3x3</span> |
-                                <i class="fas fa-play me-1"></i>
-                                O'yinga kirishingiz mumkin
-                            </p>
-                        </div>
-                        <div class="notification-actions">
-                            <button class="btn-sm btn-primary" onclick="joinGame()">
-                                <i class="fas fa-play me-1"></i>
-                                O'yinga kirish
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
 
-        <!-- Play Online Page -->
-        <div class="page" id="online">
-            <div class="page-card">
-                <h1 class="page-title">
-                    <i class="fas fa-globe-americas me-3" style="color: #667eea;"></i>
-                    Online O'ynash
-                </h1>
-                <p class="page-subtitle">Butun dunyo bo'ylab o'yinchilar bilan o'ynang</p>
-
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-search"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Tasodifiy raqib</h4>
-                            <p>Avtomatik ravishda raqib topish</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Reyting o'yinlari</h4>
-                            <p>Reytingingizni oshiring</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-crown"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Tournament</h4>
-                            <p>Turnirda ishtirok eting</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">1,247</div>
-                        <div class="stat-label">Online o'yinchilar</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">23</div>
-                        <div class="stat-label">Aktiv o'yinlar</div>
-                    </div>
-                </div>
-
-                <div class="action-grid">
-                    <button class="action-btn primary">
-                        <i class="fas fa-play me-2"></i>
-                        Tezkor o'yin
-                    </button>
-                    <button class="action-btn warning">
-                        <i class="fas fa-trophy me-2"></i>
-                        Reyting o'yini
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Social Page -->
-        <div class="page" id="social">
-            <div class="page-card">
-                <h1 class="page-title">
-                    <i class="fas fa-share-alt me-3" style="color: #fa709a;"></i>
-                    Ijtimoiy tarmoq
-                </h1>
-                <p class="page-subtitle">Do'stlar bilan ulashing va natijalarni ko'rsating</p>
-
-                <div class="feature-list">
-                    <div class="feature-item social">
-                        <div class="feature-icon">
-                            <i class="fab fa-telegram"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Telegram</h4>
-                            <p>Natijani Telegramda ulashing</p>
-                        </div>
-                    </div>
-                    <div class="feature-item social">
-                        <div class="feature-icon">
-                            <i class="fab fa-instagram"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Instagram</h4>
-                            <p>Story-ga yuklang</p>
-                        </div>
-                    </div>
-                    <div class="feature-item social">
-                        <div class="feature-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Yutuqlar</h4>
-                            <p>O'z yutuqlaringizni ko'rsating</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-grid">
-                    <button class="action-btn primary">
-                        <i class="fas fa-share me-2"></i>
-                        Statistika ulashish
-                    </button>
-                    <button class="action-btn success">
-                        <i class="fas fa-medal me-2"></i>
-                        Yutuqlar ko'rish
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Friends List Page -->
-        <div class="page" id="friendslist">
-            <div class="page-card">
-                <h1 class="page-title">
-                    <i class="fas fa-user-friends me-3" style="color: #56ab2f;"></i>
-                    Do'stlar ro'yxati
-                </h1>
-                <p class="page-subtitle">Do'stlaringiz va ularning faoliyati</p>
-
-                <div class="feature-list">
-                    <div class="feature-item friends">
-                        <div class="feature-icon">
-                            <i class="fas fa-circle" style="color: #00ff00; font-size: 0.8rem;"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Ahmad_XO</h4>
-                            <p>Online - So'nggi o'yin: 5 daqiqa oldin</p>
-                        </div>
-                    </div>
-                    <div class="feature-item friends">
-                        <div class="feature-icon">
-                            <i class="fas fa-circle" style="color: #ffaa00; font-size: 0.8rem;"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Zarina_Pro</h4>
-                            <p>Faol - So'nggi o'yin: 1 soat oldin</p>
-                        </div>
-                    </div>
-                    <div class="feature-item friends">
-                        <div class="feature-icon">
-                            <i class="fas fa-circle" style="color: #888; font-size: 0.8rem;"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Sardor_123</h4>
-                            <p>Offline - So'nggi o'yin: 2 kun oldin</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-grid">
-                    <button class="action-btn primary">
-                        <i class="fas fa-user-plus me-2"></i>
-                        Do'st qo'shish
-                    </button>
-                    <button class="action-btn success">
-                        <i class="fas fa-gamepad me-2"></i>
-                        Do'st chaqirish
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Chats Page -->
-        <div class="page" id="chats">
-            <div class="page-card">
-                <h1 class="page-title">
-                    <i class="fas fa-comments me-3" style="color: #00d2ff;"></i>
-                    Chat xonalari
-                </h1>
-                <p class="page-subtitle">Boshqa o'yinchilar bilan suhbatlashing</p>
-
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-globe"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Umumiy chat</h4>
-                            <p>127 online, so'nggi xabar: 2 daqiqa oldin</p>
-                        </div>
-                    </div>
-                    <div class="feature-item friends">
-                        <div class="feature-icon">
-                            <i class="fas fa-users"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>O'zbek o'yinchilar</h4>
-                            <p>45 online, so'nggi xabar: 30 soniya oldin</p>
-                        </div>
-                    </div>
-                    <div class="feature-item bots">
-                        <div class="feature-icon">
-                            <i class="fas fa-trophy"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Pro o'yinchilar</h4>
-                            <p>18 online, so'nggi xabar: 1 daqiqa oldin</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-grid">
-                    <button class="action-btn primary">
-                        <i class="fas fa-comment me-2"></i>
-                        Chatga kirish
-                    </button>
-                    <button class="action-btn warning">
-                        <i class="fas fa-plus me-2"></i>
-                        Xona yaratish
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- Settings Page -->
-        <div class="page" id="settings">
-            <div class="page-card">
-                <h1 class="page-title">
-                    <i class="fas fa-cog me-3" style="color: #667eea;"></i>
-                    Sozlamalar
-                </h1>
-                <p class="page-subtitle">O'yin sozlamalari va tizim parametrlari</p>
-
-                <div class="feature-list">
-                    <div class="feature-item social">
-                        <div class="feature-icon">
-                            <i class="fas fa-volume-up"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Tovush sozlamalari</h4>
-                            <p>Ovoz effektlari va musiqa</p>
-                        </div>
-                    </div>
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-palette"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Tema sozlamalari</h4>
-                            <p>Rang va dizayn o'zgartirish</p>
-                        </div>
-                    </div>
-                    <div class="feature-item friends">
-                        <div class="feature-icon">
-                            <i class="fas fa-language"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Til sozlamalari</h4>
-                            <p>Interface tilini tanlash</p>
-                        </div>
-                    </div>
-                    <div class="feature-item bots">
-                        <div class="feature-icon">
-                            <i class="fas fa-shield-alt"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Maxfiylik</h4>
-                            <p>Account xavfsizligi</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="action-grid">
-                    <button class="action-btn warning">
-                        <i class="fas fa-save me-2"></i>
-                        Saqlash
-                    </button>
-                    <button class="action-btn danger">
-                        <i class="fas fa-undo me-2"></i>
-                        Standart holatga qaytarish
-                    </button>
-                </div>
-            </div>
-        </div>
-
-        <!-- WEB UI Page -->
-        <div class="page" id="webui">
-            <div class="page-card">
-                <h1 class="page-title">
-                    <i class="fas fa-globe me-3" style="color: #00d2ff;"></i>
-                    WEB UI Boshqaruv paneli
-                </h1>
-                <p class="page-subtitle">Veb interface va boshqaruv sozlamalari</p>
-
-                <div class="feature-list">
-                    <div class="feature-item">
-                        <div class="feature-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Statistika</h4>
-                            <p>Batafsil o'yin statistikalari</p>
-                        </div>
-                    </div>
-                    <div class="feature-item social">
-                        <div class="feature-icon">
-                            <i class="fas fa-database"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Ma'lumotlar bazasi</h4>
-                            <p>O'yinlar tarixi va ma'lumotlar</p>
-                        </div>
-                    </div>
-                    <div class="feature-item friends">
-                        <div class="feature-icon">
-                            <i class="fas fa-server"></i>
-                        </div>
-                        <div class="feature-content">
-                            <h4>Server holati</h4>
-                            <p>Tizim ishlash ko'rsatkichlari</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="stats-grid">
-                    <div class="stat-card">
-                        <div class="stat-number">99.9%</div>
-                        <div class="stat-label">Server ishlash vaqti</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">1,247</div>
-                        <div class="stat-label">Faol foydalanuvchilar</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-number">15,632</div>
-                        <div class="stat-label">Kunlik o'yinlar</div>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</div>
-
-<script>
-    // Telegram WebApp Integration
-    let tg = window.Telegram?.WebApp;
-    let user = null;
-
-    // Initialize Telegram WebApp
-    function initTelegramApp() {
-        if (tg) {
-            tg.ready();
-            user = tg.initDataUnsafe?.user;
-
-            if (user) {
-                updateUserProfile(user);
-                console.log('Telegram user loaded:', user);
-            } else {
-                console.log('Telegram user not available, using demo data');
-                loadDemoUserData();
-            }
-
-            // Set theme
-            if (tg.themeParams) {
-                updateThemeFromTelegram(tg.themeParams);
-            }
-        } else {
-            console.log('Telegram WebApp not available, using demo data');
-            loadDemoUserData();
-        }
-    }
-
-    // Update user profile with Telegram data
-    function updateUserProfile(userData) {
-        const userName = document.getElementById('userName');
-        const userUsername = document.getElementById('userUsername');
-        const userAvatar = document.getElementById('userAvatar');
-        const telegramId = document.getElementById('telegramId');
-        const userLanguage = document.getElementById('userLanguage');
-        const premiumStatus = document.getElementById('premiumStatus');
-
-        if (userData) {
-            userName.textContent = `${userData.first_name} ${userData.last_name || ''}`.trim();
-            userUsername.textContent = userData.username ? `@${userData.username}` : 'Username yo\'q';
-            telegramId.textContent = userData.id;
-            userLanguage.textContent = `Til: ${userData.language_code?.toUpperCase() || 'Noma\'lum'}`;
-            premiumStatus.textContent = userData.is_premium ? 'Premium foydalanuvchi' : 'Oddiy foydalanuvchi';
-
-            if (userData.photo_url) {
-                userAvatar.src = userData.photo_url;
-            }
-        }
-    }
-
-    // Load demo data when Telegram is not available
-    function loadDemoUserData() {
-        const demoUser = {
-            first_name: 'Demo',
-            last_name: 'User',
-            username: 'demo_user',
-            id: '123456789',
-            language_code: 'uz',
-            is_premium: false
-        };
-        updateUserProfile(demoUser);
-    }
-
-    // Update theme from Telegram
-    function updateThemeFromTelegram(themeParams) {
-        const themeDisplay = document.getElementById('themeParams');
-        if (themeParams.bg_color) {
-            themeDisplay.textContent = `Telegram theme: ${themeParams.bg_color}`;
-        }
-    }
-
-    // Refresh Telegram data
-    function refreshTelegramData() {
-        if (tg && tg.initDataUnsafe?.user) {
-            updateUserProfile(tg.initDataUnsafe.user);
-            showNotification('✅ Ma\'lumotlar yangilandi!', 'success');
-        } else {
-            showNotification('⚠️ Telegram ma\'lumotlari mavjud emas', 'warning');
-        }
-    }
-
-    // Simplified JavaScript - Performance Optimized
-    let currentPage = 'dashboard';
-    let currentNestedSidebar = null;
-    let activeMenuItem = null;
-    let selectedFriend = null;
-
-    // Page Management - Simplified
-    function showPage(pageId) {
-        // Hide all pages
-        document.querySelectorAll('.page').forEach(page => {
-            page.classList.remove('active');
-        });
-
-        // Show target page
-        const targetPage = document.getElementById(pageId);
-        if (targetPage) {
-            targetPage.classList.add('active');
-            currentPage = pageId;
-        }
-
-        // Close sidebars
-        closeSidebars();
-    }
-
-    // Active state management - Simplified
-    function setActiveMenuItem(menuType) {
-        clearActiveMenuItems();
-        const menuItem = document.querySelector(`[data-menu="${menuType}"]`);
-        if (menuItem) {
-            menuItem.classList.add('active');
-            activeMenuItem = menuItem;
-        }
-    }
-
-    function clearActiveMenuItems() {
-        document.querySelectorAll('.menu-item[data-menu]').forEach(item => {
-            item.classList.remove('active');
-        });
-        activeMenuItem = null;
-    }
-
-    // Sidebar functions - Simplified
-    function toggleSidebar() {
-        const sidebar = document.getElementById('mainSidebar');
-        const overlay = document.getElementById('overlay');
-
-        if (sidebar.classList.contains('active')) {
-            closeNestedSidebar();
-            clearActiveMenuItems();
-            sidebar.classList.remove('active');
-            overlay.classList.remove('active');
-        } else {
-            sidebar.classList.add('active');
-            overlay.classList.add('active');
-        }
-    }
-
-    function openNestedSidebar(type) {
-        closeNestedSidebar();
-        setActiveMenuItem(type);
-
-        const nestedSidebar = document.getElementById(type + 'Sidebar');
-        if (nestedSidebar) {
-            nestedSidebar.classList.add('active');
-            currentNestedSidebar = nestedSidebar;
-        }
-    }
-
-    function closeNestedSidebar() {
-        if (currentNestedSidebar) {
-            currentNestedSidebar.classList.remove('active');
-            currentNestedSidebar = null;
-        }
-        clearActiveMenuItems();
-    }
-
-    function closeSidebars() {
-        const sidebar = document.getElementById('mainSidebar');
-        const overlay = document.getElementById('overlay');
-
-        closeNestedSidebar();
-        sidebar.classList.remove('active');
-        overlay.classList.remove('active');
-    }
-
-    // Logout function
-    function logout() {
-        if (confirm('Rostdan ham chiqishni xohlaysizmi?')) {
-            alert('Muvaffaqiyatli chiqildi!');
-            showPage('dashboard');
-        }
-    }
-
-    // FRIENDS QUICK SELECT FUNCTIONS
-
-    // Do'st tanlash
-    function selectFriend(username) {
-        // Barcha chiplardan selected classni olib tashlash
-        document.querySelectorAll('.friend-chip').forEach(chip => {
-            chip.classList.remove('selected');
-        });
-
-        // Tanlangan chipga selected class qo'shish
-        event.target.classList.add('selected');
-
-        // Username inputiga qo'yish
-        document.getElementById('friendUsername').value = username;
-        selectedFriend = username;
-
-        // Muvaffaqiyat xabari
-        showNotification(`✅ ${username} tanlandi!`, 'success');
-    }
-
-    // DUEL SYSTEM FUNCTIONS
-
-    // Duel yuborish
-    document.getElementById("duelForm").addEventListener("submit", function (e) {
-        e.preventDefault();
-
-        const username = document.getElementById("friendUsername").value.trim();
-        const gameMode = document.getElementById("gameMode").value;
-        const boardSize = document.getElementById("boardSize").value;
-        const duelStatus = document.getElementById("duelStatus");
-
-        if (!username.startsWith("@")) {
-            duelStatus.classList.remove("d-none", "alert-success");
-            duelStatus.classList.add("alert-danger");
-            duelStatus.innerText = "Iltimos, username boshida '@' belgisi bilan bo'lsin!";
-            return;
-        }
-
-        // Game mode nomi
-        const gameModeNames = {
-            'simple': 'Simple',
-            'changeable': 'Changeable',
-            'super': 'Super'
-        };
-
-        // Simulyatsiya: do'stingizga duel yuborildi
-        duelStatus.classList.remove("d-none", "alert-danger");
-        duelStatus.classList.add("alert-success");
-        duelStatus.innerHTML = `✅ Duel <strong>${username}</strong> foydalanuvchiga yuborildi! <br>Mode: <strong>${gameModeNames[gameMode]}</strong>, Board: <strong>${boardSize}</strong>`;
-
-        // Yuborilgan duellar ro'yxatiga qo'shish
-        addSentDuel(username, gameMode, boardSize);
-
-        // Formani tozalash
-        document.getElementById("friendUsername").value = "";
-        document.getElementById("gameMode").value = "simple";
-        document.getElementById("boardSize").value = "3x3";
-
-        // Selected friend chipni tozalash
-        document.querySelectorAll('.friend-chip').forEach(chip => {
-            chip.classList.remove('selected');
-        });
-        selectedFriend = null;
-
-        // 3 soniyadan keyin status ni yashirish
-        setTimeout(() => {
-            duelStatus.classList.add("d-none");
-        }, 3000);
-    });
-
-    // Yuborilgan duel qo'shish
-    function addSentDuel(username, gameMode, boardSize) {
-        const sentDuels = document.getElementById("sentDuels");
-
-        const gameModeNames = {
-            'simple': 'Simple',
-            'changeable': 'Changeable',
-            'super': 'Super'
-        };
-
-        const modeClasses = {
-            'simple': 'mode-simple',
-            'changeable': 'mode-changeable',
-            'super': 'mode-super'
-        };
-
-        const duelItem = document.createElement("div");
-        duelItem.className = "notification-item pending";
-        duelItem.innerHTML = `
-            <div class="notification-content">
-                <h5>
-                    <i class="fas fa-clock me-2"></i>
-                    ${username} ga yuborildi
-                    <span class="mode-badge ${modeClasses[gameMode]}">${gameModeNames[gameMode]}</span>
-                </h5>
-                <p>
-                    <i class="fas fa-th me-1"></i>
-                    Board: ${boardSize} |
-                    <i class="fas fa-hourglass-half me-1"></i>
-                    Javob kutilmoqda...
-                </p>
-            </div>
-            <div class="notification-actions">
-                <button class="btn-sm btn-danger" onclick="cancelDuel('${username}')">
-                    <i class="fas fa-times me-1"></i>
-                    Bekor qilish
-                </button>
-            </div>
-        `;
-        sentDuels.appendChild(duelItem);
-    }
-
-    // Duel qabul qilish
-    function acceptDuel(username, gameMode, boardSize) {
-        // Kelgan duelni olib tashlash
-        const notifications = document.getElementById("duelNotifications");
-        const duelItems = notifications.querySelectorAll(".notification-item");
-
-        duelItems.forEach(item => {
-            if (item.innerHTML.includes(username)) {
-                item.remove();
-            }
-        });
-
-        // Duel countni kamaytirish
-        const duelCount = document.getElementById("duelCount");
-        let count = parseInt(duelCount.textContent);
-        duelCount.textContent = Math.max(0, count - 1);
-
-        // O'yin tayyor bo'limini ko'rsatish
-        showGameReady(username, gameMode, boardSize);
-
-        // Muvaffaqiyat xabari
-        showNotification(`✅ ${username} bilan o'yin qabul qilindi!`, 'success');
-    }
-
-    // Duel rad etish
-    function rejectDuel(username) {
-        // Kelgan duelni olib tashlash
-        const notifications = document.getElementById("duelNotifications");
-        const duelItems = notifications.querySelectorAll(".notification-item");
-
-        duelItems.forEach(item => {
-            if (item.innerHTML.includes(username)) {
-                item.remove();
-            }
-        });
-
-        // Duel countni kamaytirish
-        const duelCount = document.getElementById("duelCount");
-        let count = parseInt(duelCount.textContent);
-        duelCount.textContent = Math.max(0, count - 1);
-
-        // Rad etish xabari
-        showNotification(`❌ ${username} dan kelgan duel rad etildi`, 'warning');
-    }
-
-    // Duel bekor qilish
-    function cancelDuel(username) {
-        // Yuborilgan duelni olib tashlash
-        const sentDuels = document.getElementById("sentDuels");
-        const duelItems = sentDuels.querySelectorAll(".notification-item");
-
-        duelItems.forEach(item => {
-            if (item.innerHTML.includes(username)) {
-                item.remove();
-            }
-        });
-
-        // Bekor qilish xabari
-        showNotification(`🚫 ${username} ga yuborilgan duel bekor qilindi`, 'warning');
-    }
-
-    // O'yin tayyor bo'limini ko'rsatish
-    function showGameReady(username, gameMode, boardSize) {
-        const gameReadySection = document.getElementById("gameReadySection");
-        const gameOpponent = document.getElementById("gameOpponent");
-        const gameBoard = document.getElementById("gameBoard");
-        const gameModeDisplay = document.getElementById("gameModeDisplay");
-
-        const gameModeNames = {
-            'simple': 'Simple',
-            'changeable': 'Changeable',
-            'super': 'Super'
-        };
-
-        const modeClasses = {
-            'simple': 'mode-simple',
-            'changeable': 'mode-changeable',
-            'super': 'mode-super'
-        };
-
-        gameOpponent.textContent = username;
-        gameBoard.textContent = boardSize;
-        gameModeDisplay.textContent = gameModeNames[gameMode];
-        gameModeDisplay.className = `mode-badge ${modeClasses[gameMode]}`;
-
-        gameReadySection.classList.remove("d-none");
-
-        // 15 soniyadan keyin avtomatik yashirish
-        setTimeout(() => {
-            gameReadySection.classList.add("d-none");
-        }, 15000);
-    }
-
-    // O'yinga kirish
-    function joinGame() {
-        const gameOpponent = document.getElementById("gameOpponent").textContent;
-        const gameBoard = document.getElementById("gameBoard").textContent;
-        const gameModeDisplay = document.getElementById("gameModeDisplay").textContent;
-
-        // O'yin tayyor bo'limini yashirish
-        document.getElementById("gameReadySection").classList.add("d-none");
-
-        // O'yinga kirish simulyatsiyasi
-        showNotification(`🎮 ${gameOpponent} bilan ${gameModeDisplay} ${gameBoard} o'yini boshlanmoqda...`, 'primary');
-
-        // Bu yerda o'yin sahifasiga o'tish yoki o'yin oynasini ochish logikasi bo'ladi
-        setTimeout(() => {
-            alert(`O'yin boshlanadi!\nRaqib: ${gameOpponent}\nMode: ${gameModeDisplay}\nBoard: ${gameBoard}`);
-        }, 1000);
-    }
-
-    // Xabar ko'rsatish funksiyasi
-    function showNotification(message, type = 'info') {
-        // Xabar elementini yaratish
-        const notification = document.createElement('div');
-        notification.className = `alert alert-${type} position-fixed`;
-        notification.style.cssText = `
-            top: 80px;
-            right: 20px;
-            z-index: 9999;
-            min-width: 300px;
-            animation: slideIn 0.3s ease;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-        `;
-        notification.innerHTML = `
-            ${message}
-            <button type="button" class="btn-close float-end" onclick="this.parentElement.remove()"></button>
-        `;
-
-        // Sahifaga qo'shish
-        document.body.appendChild(notification);
-
-        // 5 soniyadan keyin avtomatik olib tashlash
-        setTimeout(() => {
-            if (notification.parentElement) {
-                notification.remove();
-            }
-        }, 5000);
-    }
-
-    // Touch events - Simplified
-    let touchStartX = 0;
-
-    document.addEventListener('touchstart', function(event) {
-        touchStartX = event.changedTouches[0].screenX;
-    }, { passive: true });
-
-    document.addEventListener('touchend', function(event) {
-        const touchEndX = event.changedTouches[0].screenX;
-        const diffX = touchStartX - touchEndX;
-
-        if (Math.abs(diffX) > 80) {
-            if (diffX > 0) {
-                closeSidebars();
-            } else {
-                if (!document.getElementById('mainSidebar').classList.contains('active')) {
-                    toggleSidebar();
-                }
-            }
-        }
-    }, { passive: true });
-
-    // Click outside to close - Simplified
-    document.addEventListener('click', function(event) {
-        const sidebar = document.getElementById('mainSidebar');
-        const hamburgerBtn = document.querySelector('.hamburger-btn');
-
-        if (!sidebar.contains(event.target) &&
-            !hamburgerBtn.contains(event.target) &&
-            sidebar.classList.contains('active')) {
-            closeSidebars();
-        }
-    });
-
-    // Keyboard support
-    document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape') {
-            closeSidebars();
-        }
-    });
-
-    // Initialize - Simplified
-    document.addEventListener('DOMContentLoaded', function() {
-        console.log('⚡ Enhanced XO Game with Telegram initialized!');
-
-        // Telegram integratsiyasini ishga tushirish
-        initTelegramApp();
-
-        // Duel tizimini ishga tushirish
-        console.log('🎮 Enhanced Duel system ready!');
-        console.log('👥 Friends quick select ready!');
-        console.log('📱 Telegram integration ready!');
-    });
-
-    // CSS animatsiya qo'shish
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
-            }
-        }
-
-        @keyframes pulse {
-            0% { transform: scale(1); }
-            50% { transform: scale(1.05); }
-            100% { transform: scale(1); }
-        }
-
-        .friend-chip:hover {
-            animation: pulse 0.3s ease;
-        }
-    `;
-    document.head.appendChild(style);
-</script>
-</body>
-</html>
